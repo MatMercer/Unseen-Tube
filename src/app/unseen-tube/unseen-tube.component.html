@@ -1,3 +1,21 @@
-<p>
-  unseen-tube works!
-</p>
+<div class="col-md-12">
+  <div class="well bs-component">
+    <fieldset>
+      <!-- search bar and button -->
+      <div class="form-group">
+        <div class="input-group">
+
+          <!-- search query input -->
+          <input id="search-query" placeholder="Search" type="text" class="form-control input-lg"
+          [(ngModel)]="searchQuery">
+
+          <!-- search button -->
+          <span class="input-group-btn">
+            <button id="search-button" class="btn btn-raised btn-primary input-lg" type="button"
+            [disabled]="searchQuery == '' || isSearching"><i class="material-icons">search</i></button>
+          </span>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</div>

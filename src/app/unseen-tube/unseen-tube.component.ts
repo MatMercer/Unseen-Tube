@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./unseen-tube.component.css']
 })
 export class UnseenTubeComponent implements OnInit {
+  searchQuery = 'webdriver torso';
+  isSearching = false;
 
   constructor() { }
 
