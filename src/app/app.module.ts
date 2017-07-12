@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { UnseenTubeComponent } from './unseen-tube/unseen-tube.component';
+import { NouisliderModule } from 'ng2-nouislider';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { UnseenTubeComponent } from './unseen-tube/unseen-tube.component';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    NouisliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

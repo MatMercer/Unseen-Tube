@@ -2,18 +2,30 @@
   <div class="well bs-component">
     <fieldset>
       <!-- search bar and button -->
-      <div class="form-group">
-        <div class="input-group">
-
-          <!-- search query input -->
-          <input id="search-query" placeholder="Search" type="text" class="form-control input-lg"
-          [(ngModel)]="searchQuery">
-
-          <!-- search button -->
-          <span class="input-group-btn">
+      <div class="form-group input-group">
+        <!-- search query input -->
+        <input id="search-query" placeholder="Search" type="text" class="form-control input-lg"
+               [(ngModel)]="searchQuery">
+        <!-- search button -->
+        <span class="input-group-btn">
             <button id="search-button" class="btn btn-raised btn-primary input-lg" type="button"
-            [disabled]="searchQuery == '' || isSearching"><i class="material-icons">search</i></button>
+                    [disabled]="searchQuery == '' || isSearching"><i class="material-icons">search</i></button>
           </span>
+      </div>
+
+      <div class="col-sm-10 col-md-5 col-lg-5">
+        <label>Max Views</label>
+        <div class="slider shor slider-primary">
+          <nouislider [config]="maxViewsRangeInputConfig" [(ngModel)]="maxViewsRange"></nouislider>
+        </div>
+        <div class="form-inline">
+          <label>
+            From
+            {{ maxViewsRange[0] }}
+            To
+            {{ maxViewsRange[1] }}
+            Views
+          </label>
         </div>
       </div>
     </fieldset>
