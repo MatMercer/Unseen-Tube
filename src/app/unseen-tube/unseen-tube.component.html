@@ -18,13 +18,26 @@
       <div class="form-group col-xs-6">
         <div class="input-group">
           <label class="col-sm-6">Search for videos with less than</label>
-          <div class="col-sm-3 col-md-2">
-            <input type="number" class="form-control" [(ngModel)]="maxViews">
+          <div class="col-sm-4">
+            <input type="number" min="1" max="3000000000" class="form-control" [(ngModel)]="maxViews">
           </div>
-          <label class="col-sm-2">views.</label>
+          <label *ngIf="maxViews == 1; else viewsLabel" class="col-sm-2">view.</label>
+          <ng-template #viewsLabel>
+            <label class="col-sm-2">views.</label>
+          </ng-template>
         </div>
         <nouislider class="slider shor slider-primary noUi-connect" [connect]="true" [min]="1" [max]="1000" [step]="1"
                     [(ngModel)]="maxViews"></nouislider>
+      </div>
+      <div class="form-group col-xs-6">
+        <div class="input-group">
+          <label class="col-sm-6">Published before</label>
+          <div class="col-sm-4">
+            <input type="number" min="2006" max="2017" class="form-control" [(ngModel)]="publishedBefore">
+          </div>
+        </div>
+        <nouislider class="slider shor slider-primary noUi-connect" [connect]="true" [min]="2006" [max]="2017" [step]="1"
+                    [(ngModel)]="publishedBefore"></nouislider>
       </div>
     </fieldset>
   </div>
