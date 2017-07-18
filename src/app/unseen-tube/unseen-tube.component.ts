@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-unseen-tube',
@@ -10,6 +10,7 @@ export class UnseenTubeComponent implements OnInit {
   isSearching: boolean;
   maxViews: number;
   publishedBefore: number;
+  @ViewChild('searchButton') searchButton: ElementRef;
 
   constructor() {
     /* Variables setup */
@@ -22,4 +23,8 @@ export class UnseenTubeComponent implements OnInit {
   ngOnInit() {
   }
 
+  private performSearch() {
+    this.isSearching = true;
+    setTimeout(() => {this.isSearching = false}, 2000);
+  }
 }
