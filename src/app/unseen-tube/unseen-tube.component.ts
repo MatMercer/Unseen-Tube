@@ -1,9 +1,13 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import 'rxjs/add/operator/map';
+import {UnseenTubeQuery, UnseenTubeService} from './unseen-tube.service';
+
 
 @Component({
   selector: 'app-unseen-tube',
   templateUrl: './unseen-tube.component.html',
-  styleUrls: ['./unseen-tube.component.css']
+  styleUrls: ['./unseen-tube.component.css'],
+  providers: [UnseenTubeService]
 })
 export class UnseenTubeComponent implements OnInit {
   searchQuery: string;
@@ -12,7 +16,7 @@ export class UnseenTubeComponent implements OnInit {
   publishedBefore: number;
   @ViewChild('searchButton') searchButton: ElementRef;
 
-  constructor() {
+  constructor(private _unseeTubeService: UnseenTubeService) {
     /* Variables setup */
     this.searchQuery = 'webdriver torso';
     this.isSearching = false;
@@ -25,6 +29,11 @@ export class UnseenTubeComponent implements OnInit {
 
   private performSearch() {
     this.isSearching = true;
-    setTimeout(() => {this.isSearching = false}, 2000);
+
+    this._unseeTubeService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore));
+
+    this.isSearching = false;
   }
 }
+
+
