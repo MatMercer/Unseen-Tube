@@ -11,12 +11,17 @@ export class UnseenTubeService {
   }
   /* API setup */
   private API_KEY = 'AIzaSyBjkk77b_Wey0IsVqHmAh9rbk13nuFaJaU';
-  private API_URL = 'https://www.googleapis.com/youtube/v3/search';
+  private SEARCH_API_URL = 'https://www.googleapis.com/youtube/v3/search';
+  private VIDEO_API_URL = 'https://www.googleapis.com/youtube/v3/videos';
 
   /* The current query */
   private currentQuery: UnseenTubeQuery;
 
-  /* The current found videos */
+  /* The current stored videos id and statistics array */
+  private videosIds: JSON;
+  private videosStats: JSON;
+
+  /* The current found videos (with filters) */
   private _currentVideos: UnseenTubeVideo[];
 
   constructor(
@@ -49,7 +54,7 @@ export class UnseenTubeService {
 
     /* Makes the API request with the parameters */
     this.http
-      .get(this.API_URL, {
+      .get(this.SEARCH_API_URL, {
         search: params
       }).subscribe(
         (response) => this.onSearchSuccess(response.json()),
@@ -58,15 +63,40 @@ export class UnseenTubeService {
   }
 
   private onSearchSuccess(response) {
-    console.log(response);
+    // console.log(response);
     /* Setup the next page token for later use */
     this.currentQuery.nextPageToken = response.nextPageToken;
 
-    this._unseenTubeVideoService.parseVideosFromJSON(response.items);
+    /*
+     Creates the API parameters
+     */
+    const params: URLSearchParams = new URLSearchParams();
+    params.set('part', 'statistics');
+    /* Here the videos ID's are passed to the other Youtube API */
+    params.set('id', this._unseenTubeVideoService.getVideosIdsFromJson(response.items).join());
+    params.set('key', this.API_KEY);
+
+    /* Makes the API request with the parameters */
+    this.http
+      .get(this.VIDEO_API_URL, {
+        search: params
+      }).subscribe(
+        (statistics) => this.onStatsSuccess(statistics.json()),
+        (error) => this.onSearchError(error.json())
+      );
+
+    // this._currentVideos = this._unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
   }
 
   private onSearchError(error: JSON) {
     console.log(error)
+  }
+
+  private onStatsSuccess(videosStatis) {
+    console.log(videosStatis);
+
+    /* Sends to the data to the videos service */
+    this._unseenTubeVideoService.parseVideosFromJSON(videosStatis.items)
   }
 }
 
