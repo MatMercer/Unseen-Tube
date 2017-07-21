@@ -21,6 +21,11 @@ export class UnseenTubeVideoService {
     return ids;
   }
 
+  private filterVideoByQuery(query: UnseenTubeQuery) {
+    return function(video) {
+      return video.views <= query.maxViews;
+    }
+  }
 
   addVideo(videoId: string, views: number, postDate: Date) {
     this.addVideoObj(new UnseenTubeVideo(videoId, views, postDate));
@@ -47,7 +52,7 @@ export class UnseenTubeVideoService {
   }
 
   getVideosWithFilter(currentQuery: UnseenTubeQuery) {
-
+    return this._videos.filter(this.filterVideoByQuery(currentQuery));
   }
 
 }

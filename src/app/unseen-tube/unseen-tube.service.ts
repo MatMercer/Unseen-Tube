@@ -98,6 +98,9 @@ export class UnseenTubeService {
 
     /* Sends to the data to the videos service */
     this._unseenTubeVideoService.parseVideosFromJSON(videosStatis.items)
+
+    this._currentVideos = this._unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
+    console.log(this._currentVideos);
   }
 }
 
