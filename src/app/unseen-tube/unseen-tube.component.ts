@@ -1,13 +1,15 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/map';
-import {UnseenTubeQuery, UnseenTubeService} from './unseen-tube.service';
+import {UnseenTubeService} from './unseen-tube.service';
+import {UnseenTubeQuery} from './unseen-tube-query.model';
+import {UnseenTubeVideoService} from './unseen-tube-video/unseen-tube-video.service';
 
 
 @Component({
   selector: 'app-unseen-tube',
   templateUrl: './unseen-tube.component.html',
   styleUrls: ['./unseen-tube.component.css'],
-  providers: [UnseenTubeService]
+  providers: [UnseenTubeService, UnseenTubeVideoService]
 })
 export class UnseenTubeComponent implements OnInit {
   searchQuery: string;
