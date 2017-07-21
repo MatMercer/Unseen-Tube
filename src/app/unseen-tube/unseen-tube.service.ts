@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, URLSearchParams} from '@angular/http';
 import {UnseenTubeQuery} from './unseen-tube-query.model';
 import {UnseenTubeVideoService} from './unseen-tube-video/unseen-tube-video.service';
@@ -9,6 +9,7 @@ export class UnseenTubeService {
   get currentVideos(): UnseenTubeVideo[] {
     return this._currentVideos;
   }
+
   /* API setup */
   private API_KEY = 'AIzaSyBjkk77b_Wey0IsVqHmAh9rbk13nuFaJaU';
   private SEARCH_API_URL = 'https://www.googleapis.com/youtube/v3/search';
@@ -24,10 +25,9 @@ export class UnseenTubeService {
   /* The current found videos (with filters) */
   private _currentVideos: UnseenTubeVideo[];
 
-  constructor(
-    private http: Http,
-    private _unseenTubeVideoService: UnseenTubeVideoService
-  ) {}
+  constructor(private http: Http,
+              private _unseenTubeVideoService: UnseenTubeVideoService) {
+  }
 
   /**
    * Performs a Youtube search.
@@ -42,7 +42,7 @@ export class UnseenTubeService {
     this.currentQuery = newQuery;
 
     /*
-      Creates the API parameters
+     Creates the API parameters
      */
     const params: URLSearchParams = new URLSearchParams();
     params.set('part', 'id');
@@ -57,9 +57,9 @@ export class UnseenTubeService {
       .get(this.SEARCH_API_URL, {
         search: params
       }).subscribe(
-        (response) => this.onSearchSuccess(response.json()),
-        (error) => this.onSearchError(error.json())
-      );
+      (response) => this.onSearchSuccess(response.json()),
+      (error) => this.onSearchError(error.json())
+    );
   }
 
   private onSearchSuccess(response) {
@@ -81,18 +81,19 @@ export class UnseenTubeService {
       .get(this.VIDEO_API_URL, {
         search: params
       }).subscribe(
-        (statistics) => this.onStatsSuccess(statistics.json()),
-        (error) => this.onSearchError(error.json())
-      );
+      (statistics) => this.onVideosStatsSuccess(statistics.json()),
+      (error) => this.onSearchError(error.json())
+    );
 
     // this._currentVideos = this._unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
   }
 
+  // TODO: Better error message
   private onSearchError(error: JSON) {
     console.log(error)
   }
 
-  private onStatsSuccess(videosStatis) {
+  private onVideosStatsSuccess(videosStatis) {
     console.log(videosStatis);
 
     /* Sends to the data to the videos service */

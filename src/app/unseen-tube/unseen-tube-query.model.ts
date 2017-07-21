@@ -6,6 +6,7 @@ export class UnseenTubeQuery {
   set nextPageToken(value: string) {
     this._nextPageToken = value;
   }
+
   get publishedBefore(): number {
     return this._publishedBefore;
   }

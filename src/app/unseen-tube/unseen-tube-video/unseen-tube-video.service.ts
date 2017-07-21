@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {UnseenTubeVideo} from './unseen-tube-video.model';
 import {UnseenTubeQuery} from '../unseen-tube-query.model';
 
@@ -7,6 +7,7 @@ export class UnseenTubeVideoService {
   get videos(): UnseenTubeVideo[] {
     return this._videos;
   }
+
   private _videos: UnseenTubeVideo[];
 
   getVideosIdsFromJson(items) {
