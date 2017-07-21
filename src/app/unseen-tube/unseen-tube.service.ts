@@ -2,15 +2,22 @@ import { Injectable } from '@angular/core';
 import {Http, URLSearchParams} from '@angular/http';
 import {UnseenTubeQuery} from './unseen-tube-query.model';
 import {UnseenTubeVideoService} from './unseen-tube-video/unseen-tube-video.service';
+import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
 
 @Injectable()
 export class UnseenTubeService {
+  get currentVideos(): UnseenTubeVideo[] {
+    return this._currentVideos;
+  }
   /* API setup */
   private API_KEY = 'AIzaSyBjkk77b_Wey0IsVqHmAh9rbk13nuFaJaU';
   private API_URL = 'https://www.googleapis.com/youtube/v3/search';
 
   /* The current query */
   private currentQuery: UnseenTubeQuery;
+
+  /* The current found videos */
+  private _currentVideos: UnseenTubeVideo[];
 
   constructor(
     private http: Http,
@@ -54,6 +61,8 @@ export class UnseenTubeService {
     console.log(response);
     /* Setup the next page token for later use */
     this.currentQuery.nextPageToken = response.nextPageToken;
+
+    this._unseenTubeVideoService.parseVideosFromJSON(response.items);
   }
 
   private onSearchError(error: JSON) {
