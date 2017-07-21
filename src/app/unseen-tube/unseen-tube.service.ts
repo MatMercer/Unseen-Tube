@@ -6,23 +6,25 @@ import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
 
 @Injectable()
 export class UnseenTubeService {
-  get currentVideos(): UnseenTubeVideo[] {
-    return this._currentVideos;
-  }
-
-  /* API setup */
+  /**
+   * API setup
+   */
   private API_KEY = 'AIzaSyBjkk77b_Wey0IsVqHmAh9rbk13nuFaJaU';
   private SEARCH_API_URL = 'https://www.googleapis.com/youtube/v3/search';
   private VIDEO_API_URL = 'https://www.googleapis.com/youtube/v3/videos';
 
-  /* The current query */
+  /**
+   * The current query, used to filter nad
+   * setup pagination
+   */
   private currentQuery: UnseenTubeQuery;
 
-  /* The current stored videos id and statistics array */
-  private videosIds: JSON;
-  private videosStats: JSON;
-
-  /* The current found videos (with filters) */
+  /**
+   * The current found videos (filtered by current query)
+   */
+  get currentVideos(): UnseenTubeVideo[] {
+    return this._currentVideos;
+  }
   private _currentVideos: UnseenTubeVideo[];
 
   constructor(private http: Http,
@@ -30,7 +32,7 @@ export class UnseenTubeService {
   }
 
   /**
-   * Performs a Youtube search.
+   * Performs a Youtube search using a query
    * @param newQuery
    */
   performSearch(newQuery: UnseenTubeQuery) {
@@ -58,10 +60,16 @@ export class UnseenTubeService {
         search: params
       }).subscribe(
       (response) => this.onSearchSuccess(response.json()),
-      (error) => this.onSearchError(error.json())
+      (error) => this.onApiError(error.json())
     );
   }
 
+  /**
+   * Called when the search API returns success.
+   * This functions calls the videos API to get
+   * videos statistics based on the found ID's
+   * @param response
+   */
   private onSearchSuccess(response) {
     // console.log(response);
     /* Setup the next page token for later use */
@@ -82,17 +90,17 @@ export class UnseenTubeService {
         search: params
       }).subscribe(
       (statistics) => this.onVideosStatsSuccess(statistics.json()),
-      (error) => this.onSearchError(error.json())
+      (error) => this.onApiError(error.json())
     );
 
     // this._currentVideos = this._unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
   }
 
-  // TODO: Better error message
-  private onSearchError(error: JSON) {
-    console.log(error)
-  }
-
+  /**
+   * This function finds the videos statistics and
+   * filters them
+   * @param videosStatis
+   */
   private onVideosStatsSuccess(videosStatis) {
     console.log(videosStatis);
 
@@ -102,5 +110,15 @@ export class UnseenTubeService {
     this._currentVideos = this._unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
     console.log(this._currentVideos);
   }
+
+  /**
+   * Called when any of the API's returns an error :(
+   * @param error
+   */
+  // TODO: Better error message
+  private onApiError(error: JSON) {
+    console.log(error)
+  }
+
 }
 

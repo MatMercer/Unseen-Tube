@@ -19,6 +19,9 @@ export class UnseenTubeQuery {
     return this._searchQuery;
   }
 
+  /**
+   * Search query data
+   */
   private _searchQuery: string;
   private _maxViews: number;
   private _publishedBefore: number;

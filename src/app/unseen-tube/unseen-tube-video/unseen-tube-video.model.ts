@@ -8,7 +8,10 @@ export class UnseenTubeVideo {
   get videoId(): string {
     return this._videoId;
   }
-  /* Video data */
+
+  /**
+   * Video data
+   */
   private _videoId: string;
   private _views: number;
   private _postDate: Date;
