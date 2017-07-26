@@ -4,6 +4,9 @@ import {UnseenTubeQuery} from './unseen-tube-query.model';
 import {UnseenTubeVideoService} from './unseen-tube-video/unseen-tube-video.service';
 import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
 
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/map';
+
 @Injectable()
 export class UnseenTubeService {
   /**
@@ -25,6 +28,7 @@ export class UnseenTubeService {
   get currentVideos(): UnseenTubeVideo[] {
     return this._currentVideos;
   }
+
   private _currentVideos: UnseenTubeVideo[];
 
   constructor(private http: Http,
@@ -55,12 +59,11 @@ export class UnseenTubeService {
     params.set('key', this.API_KEY);
 
     /* Makes the API request with the parameters */
-    this.http
+    return this.http
       .get(this.SEARCH_API_URL, {
         search: params
-      }).subscribe(
-      (response) => this.onSearchSuccess(response.json()),
-      (error) => this.onApiError(error.json())
+      }).flatMap(
+      (response) => this.onSearchSuccess(response.json())
     );
   }
 
@@ -85,10 +88,10 @@ export class UnseenTubeService {
     params.set('key', this.API_KEY);
 
     /* Makes the API request with the parameters */
-    this.http
+    return this.http
       .get(this.VIDEO_API_URL, {
         search: params
-      }).subscribe(
+      }).map(
       (statistics) => this.onVideosStatsSuccess(statistics.json()),
       (error) => this.onApiError(error.json())
     );
@@ -102,13 +105,13 @@ export class UnseenTubeService {
    * @param videosStatis
    */
   private onVideosStatsSuccess(videosStatis) {
-    console.log(videosStatis);
 
     /* Sends to the data to the videos service */
     this._unseenTubeVideoService.parseVideosFromJSON(videosStatis.items)
 
     this._currentVideos = this._unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
-    console.log(this._currentVideos);
+
+    return this._currentVideos;
   }
 
   /**

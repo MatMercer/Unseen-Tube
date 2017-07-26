@@ -32,9 +32,14 @@ export class UnseenTubeComponent implements OnInit {
   private performSearch() {
     this.isSearching = true;
 
-    this._unseeTubeService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore));
+    this._unseeTubeService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore))
+      .subscribe((videos) => this.finishSearch(videos));
 
+  }
+
+  private finishSearch(videos) {
     this.isSearching = false;
+    console.log(videos);
   }
 }
 

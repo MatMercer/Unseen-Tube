@@ -72,8 +72,6 @@ export class UnseenTubeVideoService {
     for (const video of items) {
       this.addVideo(video.id, video.statistics.viewCount, null);
     }
-
-    console.log(this._videos);
   }
 
   /**
