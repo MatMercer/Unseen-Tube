@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {UnseenTubeService} from './unseen-tube.service';
 import {UnseenTubeQuery} from './unseen-tube-query.model';
-import {UnseenTubeVideoService} from './unseen-tube-video/unseen-tube-video.service';
+import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {UnseenTubeVideo} from "./unseen-tube-video/unseen-tube-video.model";
 
 
@@ -10,7 +10,7 @@ import {UnseenTubeVideo} from "./unseen-tube-video/unseen-tube-video.model";
   selector: 'app-unseen-tube',
   templateUrl: './unseen-tube.component.html',
   styleUrls: ['./unseen-tube.component.css'],
-  providers: [UnseenTubeService, UnseenTubeVideoService]
+  providers: [UnseenTubeService, UnseenTubeVideoCollectionService]
 })
 export class UnseenTubeComponent implements OnInit {
   searchQuery: string;

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {UnseenTubeVideo} from './unseen-tube-video.model';
+import {UnseenTubeVideo} from '../unseen-tube-video/unseen-tube-video.model';
 import {UnseenTubeQuery} from '../unseen-tube-query.model';
 
 @Injectable()
-export class UnseenTubeVideoService {
+export class UnseenTubeVideoCollectionService {
   get videos(): UnseenTubeVideo[] {
     return this._videos;
   }

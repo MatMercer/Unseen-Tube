@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, URLSearchParams} from '@angular/http';
 import {UnseenTubeQuery} from './unseen-tube-query.model';
-import {UnseenTubeVideoService} from './unseen-tube-video/unseen-tube-video.service';
+import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
 
 import 'rxjs/add/operator/mergeMap';
@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UnseenTubeService {
-  get videoService(): UnseenTubeVideoService {
+  get videoService(): UnseenTubeVideoCollectionService {
     return this.unseenTubeVideoService;
   }
   /**
@@ -35,7 +35,8 @@ export class UnseenTubeService {
   private _currentVideos: UnseenTubeVideo[];
 
   constructor(private http: Http,
-              private unseenTubeVideoService: UnseenTubeVideoService) {
+              private unseenTubeVideoService: UnseenTubeVideoCollectionService) {
+    this._currentVideos = [];
   }
 
   /**
