@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Pipe, PipeTransform, Component} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,16 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+}
+
+
+/* From https://stackoverflow.com/a/38037914/7308020 */
+@Pipe({name: 'safe'})
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) {
+  }
+
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 }

@@ -55,7 +55,14 @@
       Max views must be positive.
     </div>
   </div>
+  <!-- TODO: add a progress animation -->
   <div [hidden]="!isSearching" class="progress progress-striped active">
     <div id="progress-bar" class="progress-bar" style="width: 2%"></div>
   </div>
 </div>
+<div *ngIf="this.unseenService.currentVideos.length > 0" class="container well bs-component">
+  <div class="col-sm-4 col-lg-3" *ngFor="let video of this.unseenService.currentVideos">
+    <iframe style="width: 100%" [src]="('https://www.youtube.com/embed/' + video.videoId + '?&loop=1') | safe" frameborder="0" allowfullscreen></iframe>
+  </div>
+</div>
+

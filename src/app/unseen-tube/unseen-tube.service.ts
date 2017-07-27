@@ -9,6 +9,9 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UnseenTubeService {
+  get videoService(): UnseenTubeVideoService {
+    return this.unseenTubeVideoService;
+  }
   /**
    * API setup
    */
@@ -32,7 +35,7 @@ export class UnseenTubeService {
   private _currentVideos: UnseenTubeVideo[];
 
   constructor(private http: Http,
-              private _unseenTubeVideoService: UnseenTubeVideoService) {
+              private unseenTubeVideoService: UnseenTubeVideoService) {
   }
 
   /**
@@ -84,7 +87,7 @@ export class UnseenTubeService {
     const params: URLSearchParams = new URLSearchParams();
     params.set('part', 'statistics');
     /* Here the videos ID's are passed to the other Youtube API */
-    params.set('id', this._unseenTubeVideoService.getVideosIdsFromJson(response.items).join());
+    params.set('id', this.unseenTubeVideoService.getVideosIdsFromJson(response.items).join());
     params.set('key', this.API_KEY);
 
     /* Makes the API request with the parameters */
@@ -107,9 +110,9 @@ export class UnseenTubeService {
   private onVideosStatsSuccess(videosStatis) {
 
     /* Sends to the data to the videos service */
-    this._unseenTubeVideoService.parseVideosFromJSON(videosStatis.items)
+    this.unseenTubeVideoService.parseVideosFromJSON(videosStatis.items)
 
-    this._currentVideos = this._unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
+    this._currentVideos = this.unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
 
     return this._currentVideos;
   }

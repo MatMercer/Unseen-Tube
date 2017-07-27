@@ -86,7 +86,7 @@ export class UnseenTubeVideoService {
   }
 
   /**
-   * Returns a video array filtered by an UnseenTubeQuery
+   * Returns a video array filtered by an UnseenTubeFilter
    * @param currentQuery
    * @returns {UnseenTubeVideo[]}
    */
