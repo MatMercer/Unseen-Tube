@@ -84,12 +84,12 @@ export class UnseenTubeVideoCollectionService {
    */
   private filterVideoByQuery(query: UnseenTubeQuery) {
     return function(video) {
-      return video.views <= query.maxViews;
+      return video.views < query.maxViews;
     }
   }
 
   /**
-   * Returns a video array filtered by an UnseenTubeFilter
+   * Returns a video array filtered by an UnseenTubeQuery
    * @param currentQuery
    * @returns {UnseenTubeVideo[]}
    */

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UnseenTubeService {
   get videoService(): UnseenTubeVideoCollectionService {
-    return this.unseenTubeVideoService;
+    return this.unseenTubeVideoCollection;
   }
   /**
    * API setup
@@ -35,8 +35,16 @@ export class UnseenTubeService {
   private _currentVideos: UnseenTubeVideo[];
 
   constructor(private http: Http,
-              private unseenTubeVideoService: UnseenTubeVideoCollectionService) {
+              private unseenTubeVideoCollection: UnseenTubeVideoCollectionService) {
     this._currentVideos = [];
+
+    /* Used for testing */
+    // this._currentVideos = [
+    //   new UnseenTubeVideo('dQw4w9WgXcQ', 336462569, null),
+    //   new UnseenTubeVideo('lXMskKTw3Bc', 16341950, null),
+    //   new UnseenTubeVideo('gYOEyzBFYa4', 4921934, null),
+    //   new UnseenTubeVideo('RgKAFK5djSk', 2968302226, null)
+    // ]
   }
 
   /**
@@ -88,7 +96,7 @@ export class UnseenTubeService {
     const params: URLSearchParams = new URLSearchParams();
     params.set('part', 'statistics');
     /* Here the videos ID's are passed to the other Youtube API */
-    params.set('id', this.unseenTubeVideoService.getVideosIdsFromJson(response.items).join());
+    params.set('id', this.unseenTubeVideoCollection.getVideosIdsFromJson(response.items).join());
     params.set('key', this.API_KEY);
 
     /* Makes the API request with the parameters */
@@ -111,9 +119,9 @@ export class UnseenTubeService {
   private onVideosStatsSuccess(videosStatis) {
 
     /* Sends to the data to the videos service */
-    this.unseenTubeVideoService.parseVideosFromJSON(videosStatis.items)
+    this.unseenTubeVideoCollection.parseVideosFromJSON(videosStatis.items)
 
-    this._currentVideos = this.unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
+    this._currentVideos = this.unseenTubeVideoCollection.getVideosWithFilter(this.currentQuery);
 
     return this._currentVideos;
   }
