@@ -7,9 +7,14 @@ iframe.yt-video {
   margin-top: 10px;
 }
 
-span.glyphicon.yt-views {
+i.glyphicon.yt-views {
   color: black;
-  font-size: 22px;
+  font-size: 16px;
   padding-left: 11px;
+  vertical-align: center;
 }
 
+span.lead {
+  font-size: 18px;
+  font-weight: 400;
+}
