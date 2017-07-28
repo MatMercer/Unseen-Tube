@@ -1,8 +1,11 @@
 <div class="card yt-container">
-  <iframe [src]="('https://www.youtube.com/embed/' + video.videoId + '?&loop=1') | safe"
+  <iframe [src]="('https://www.youtube.com/embed/' + video.videoId + '?&loop=1') | safeUrl"
           class="yt-video"
           frameborder="0" allowfullscreen>
   </iframe>
-    <i class="glyphicon glyphicon-eye-open yt-views"></i>
-    <span class="lead">{{video.views | prettyNumber}}</span>
+  <i [class]="'glyphicon yt-views eye ' + (video.views <= 1 ? 'glyphicon-eye-close':'glyphicon-eye-open')"
+     [style.color]="this.getViewsRedColor() | safeStyle">
+  </i>
+  <span class="lead">{{video.views | prettyNumber}}</span>
+  <i *ngIf="video.views <= 10" title="HOT" class="glyphicon glyphicon-fire yt-views" [style.color]="'red'"></i>
 </div>

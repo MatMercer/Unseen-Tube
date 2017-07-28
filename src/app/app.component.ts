@@ -12,8 +12,8 @@ export class AppComponent {
 
 
 /* From https://stackoverflow.com/a/38037914/7308020 */
-@Pipe({name: 'safe'})
-export class SafePipe implements PipeTransform {
+@Pipe({name: 'safeUrl'})
+export class SafeUrlPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {
   }
 
@@ -22,9 +22,20 @@ export class SafePipe implements PipeTransform {
   }
 }
 
+@Pipe({name: 'safeStyle'})
+export class SafeStylePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) {
+  }
+
+  transform(url) {
+    return this.sanitizer.bypassSecurityTrustStyle(url);
+  }
+}
+
 @Pipe({name: 'prettyNumber'})
 export class PrettyNumberPipe implements PipeTransform {
   transform(number) {
+    /* From https://stackoverflow.com/a/2901298/7308020 */
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 }

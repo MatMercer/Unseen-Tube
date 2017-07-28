@@ -15,4 +15,19 @@ export class UnseenTubeVideoComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Returns a red percentage rbg CSS color based in the video views, eg:
+   * views = 0 -> Returns pure red, 'rgb(255, 0, 0)'
+   * vides = 50 -> Returns 'rbg(125, 0, 0)'
+   * vides >= 100 -> Returns black
+   * @returns {string}
+   */
+  getViewsRedColor() {
+    if (this.video.views < 100) {
+      return 'rgb(' + (Math.floor((Math.abs(this.video.views - 100) / 100) * 255)) + ', 0, 0)';
+    }
+
+    return 'rbg(0, 0, 0)';
+  }
+
 }

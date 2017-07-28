@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
-import {AppComponent, PrettyNumberPipe, SafePipe} from './app.component';
+import {AppComponent, PrettyNumberPipe, SafeStylePipe, SafeUrlPipe} from './app.component';
 import {NouisliderModule} from 'ng2-nouislider';
 import {HttpModule} from '@angular/http';
 import {UnseenTubeComponent} from './unseen-tube/unseen-tube.component';
@@ -13,7 +13,8 @@ import { UnseenTubeVideoComponent } from './unseen-tube/unseen-tube-video/unseen
   declarations: [
     AppComponent,
     UnseenTubeComponent,
-    SafePipe,
+    SafeUrlPipe,
+    SafeStylePipe,
     PrettyNumberPipe,
     UnseenTubeVideoCollectionComponent,
     UnseenTubeVideoComponent
