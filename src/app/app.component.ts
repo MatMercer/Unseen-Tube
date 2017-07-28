@@ -21,3 +21,10 @@ export class SafePipe implements PipeTransform {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }
+
+@Pipe({name: 'prettyNumber'})
+export class PrettyNumberPipe implements PipeTransform {
+  transform(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+}
