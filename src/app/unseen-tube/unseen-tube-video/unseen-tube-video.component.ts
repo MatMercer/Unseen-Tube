@@ -10,7 +10,11 @@ export class UnseenTubeVideoComponent implements OnInit {
   @Input()
   public video: UnseenTubeVideo;
 
-  constructor() { }
+  public playRequested: boolean;
+
+  constructor() {
+    this.playRequested = false;
+  }
 
   ngOnInit() {
   }
@@ -28,6 +32,14 @@ export class UnseenTubeVideoComponent implements OnInit {
     }
 
     return 'rbg(0, 0, 0)';
+  }
+
+  getThumbUrl() {
+    return 'https://i.ytimg.com/vi/' + this.video.videoId + '/hqdefault.jpg';
+  }
+
+  play() {
+    this.playRequested = true;
   }
 
 }

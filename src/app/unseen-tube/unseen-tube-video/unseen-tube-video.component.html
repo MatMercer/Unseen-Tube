@@ -1,8 +1,19 @@
 <div class="card yt-container">
-  <iframe [src]="('https://www.youtube.com/embed/' + video.videoId + '?&loop=1') | safeUrl"
-          class="yt-video"
-          frameborder="0" allowfullscreen>
-  </iframe>
+  <!-- Based on https://www.labnol.org/internet/light-youtube-embeds/27941/ Thank you! -->
+  <div class="yt-player">
+    <iframe *ngIf="this.playRequested"
+            [src]="('https://www.youtube.com/embed/' + video.videoId + '?&loop=1&autoplay=1') | safeUrl"
+            class="yt-video"
+            frameborder="0" allowfullscreen>
+    </iframe>
+    <img *ngIf="!this.playRequested"
+         [src]="this.getThumbUrl()"
+         (click)="this.play()"
+         class="yt-thumb">
+    <span class="glyphicon glyphicon-play-circle"
+          *ngIf="!this.playRequested"
+          (click)="this.play()"></span>
+  </div>
   <i [class]="'glyphicon yt-views eye ' + (video.views <= 1 ? 'glyphicon-eye-close':'glyphicon-eye-open')"
      [style.color]="this.getViewsRedColor() | safeStyle">
   </i>
