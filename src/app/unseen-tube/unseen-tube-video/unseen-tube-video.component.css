@@ -1,0 +1,15 @@
+iframe.yt-video {
+  width: 100%;
+}
+
+.yt-container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+span.glyphicon.yt-views {
+  color: black;
+  font-size: 22px;
+  padding-left: 11px;
+}
+

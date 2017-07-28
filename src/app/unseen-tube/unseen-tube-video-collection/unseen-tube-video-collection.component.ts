@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {UnseenTubeVideo} from "../unseen-tube-video/unseen-tube-video.model";
+import {UnseenTubeVideo} from '../unseen-tube-video/unseen-tube-video.model';
 
 @Component({
   selector: 'app-unseen-tube-video-collection',

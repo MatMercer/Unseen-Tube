@@ -13,6 +13,9 @@ export class UnseenTubeVideoCollectionService {
    */
   private _videos: UnseenTubeVideo[];
 
+  constructor() {
+  }
+
   /**
    * Get an string ID array of videos
    * from a JSON Youtube search API items

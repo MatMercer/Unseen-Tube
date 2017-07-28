@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {UnseenTubeVideo} from './unseen-tube-video.model';
 
 @Component({
   selector: 'app-unseen-tube-video',
@@ -7,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class UnseenTubeVideoComponent implements OnInit {
   @Input()
-  public videoId: String;
+  public video: UnseenTubeVideo;
 
   constructor() { }
 

@@ -1,2 +1,11 @@
-<iframe style="width: 100%" [src]="('https://www.youtube.com/embed/' + this.videoId + '?&loop=1') | safe"
-      frameborder="0" allowfullscreen></iframe>
+<div class="card yt-container">
+  <iframe [src]="('https://www.youtube.com/embed/' + video.videoId + '?&loop=1') | safe"
+          class="yt-video"
+          frameborder="0" allowfullscreen>
+  </iframe>
+  <div class="row col-xs-12">
+    <span class="glyphicon glyphicon-eye-open yt-views"></span>
+    <span class="lead">{{video.views}}</span>
+  </div>
+</div>
+
