@@ -73,7 +73,7 @@ export class UnseenTubeVideoCollectionService {
 
     /* Iterates through all the videos inside items json and adds it */
     for (const video of items) {
-      this.addVideo(video.id, video.statistics.viewCount, null);
+      this.addVideo(video.id, Number(video.statistics.viewCount), null);
     }
   }
 

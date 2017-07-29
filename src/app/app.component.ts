@@ -34,8 +34,9 @@ export class SafeStylePipe implements PipeTransform {
 
 @Pipe({name: 'prettyNumber'})
 export class PrettyNumberPipe implements PipeTransform {
-  transform(number) {
+  transform(number: number) {
     /* From https://stackoverflow.com/a/2901298/7308020 */
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const otherNum = number.toString();
+    return otherNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 }

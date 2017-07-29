@@ -39,6 +39,10 @@ export class UnseenTubeVideoComponent implements OnInit {
   }
 
   play() {
+    if (!this.playRequested) {
+      this.video.viewIt();
+    }
+
     this.playRequested = true;
   }
 
