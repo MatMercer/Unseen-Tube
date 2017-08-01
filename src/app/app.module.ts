@@ -1,22 +1,32 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 
-import { AppComponent } from './app.component';
-import { UnseenTubeComponent } from './unseen-tube/unseen-tube.component';
-import { NouisliderModule } from 'ng2-nouislider';
+import {AppComponent, PrettyNumberPipe, SafeStylePipe, SafeUrlPipe} from './app.component';
+import {NouisliderModule} from 'ng2-nouislider';
+import {HttpModule} from '@angular/http';
+import {UnseenTubeComponent} from './unseen-tube/unseen-tube.component';
+import { UnseenTubeVideoCollectionComponent } from './unseen-tube/unseen-tube-video-collection/unseen-tube-video-collection.component';
+import { UnseenTubeVideoComponent } from './unseen-tube/unseen-tube-video/unseen-tube-video.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UnseenTubeComponent
+    UnseenTubeComponent,
+    SafeUrlPipe,
+    SafeStylePipe,
+    PrettyNumberPipe,
+    UnseenTubeVideoCollectionComponent,
+    UnseenTubeVideoComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    NouisliderModule
+    NouisliderModule,
+    HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

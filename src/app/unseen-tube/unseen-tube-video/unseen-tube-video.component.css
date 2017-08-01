@@ -1,0 +1,54 @@
+iframe.yt-video {
+  width: 100%;
+}
+
+.yt-container {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+i.glyphicon.yt-views {
+  color: black;
+  font-size: 16px;
+  padding-left: 11px;
+  vertical-align: center;
+}
+
+span.lead {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.yt-player {
+  width: 100%;
+  background-color: black;
+  height: 155px;
+}
+
+.yt-player > .glyphicon {
+  position: absolute;
+  z-index: 100;
+  color: white;
+  font-size: 48px;
+  left: 50%;
+  top: 50%;
+  margin-top: -24px;
+  margin-left: -24px;
+  cursor: pointer;
+  pointer-events: none;
+  text-shadow: -1px 0 #3f3f3f, 0 1px #3f3f3f, 1px 0 #3f3f3f, 0 -1px #3f3f3f;
+}
+
+img.yt-thumb {
+  width: 100%;
+  max-height: 155px;
+  object-fit: cover;
+  cursor: pointer;
+  -webkit-transition: .4s all;
+  -moz-transition: .4s all;
+  transition: .4s all;
+}
+
+img.yt-thumb:hover {
+  -webkit-filter: brightness(75%);
+}
