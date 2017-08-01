@@ -1,9 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {UnseenTubeService} from './unseen-tube.service';
-import {UnseenTubeQuery} from './unseen-tube-query.model';
+import {SearchType, UnseenTubeQuery} from './unseen-tube-query.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {UnseenTubeVideo} from "./unseen-tube-video/unseen-tube-video.model";
+import {isUndefined} from "util";
 
 
 @Component({
@@ -30,16 +31,24 @@ export class UnseenTubeComponent implements OnInit {
   ngOnInit() {
   }
 
-  private performSearch() {
+  private performSearch(searchType?: SearchType) {
     this.isSearching = true;
 
-    this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore))
+    if (isUndefined(searchType)) {
+      searchType = SearchType.NEW_SEARCH;
+    }
+
+    this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore, searchType))
       .subscribe(() => this.finishSearch());
 
   }
 
   private finishSearch() {
     this.isSearching = false;
+
+    if (this.unseenService.currentVideos.length === 0) {
+        this.performSearch(SearchType.NEXT_PAGE);
+    }
   }
 }
 

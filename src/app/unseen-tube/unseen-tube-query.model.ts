@@ -1,10 +1,6 @@
 export class UnseenTubeQuery {
-  get nextPageToken(): string {
-    return this._nextPageToken;
-  }
-
-  set nextPageToken(value: string) {
-    this._nextPageToken = value;
+  get searchType(): SearchType {
+    return this._searchType;
   }
 
   get publishedBefore(): number {
@@ -25,17 +21,45 @@ export class UnseenTubeQuery {
   private _searchQuery: string;
   private _maxViews: number;
   private _publishedBefore: number;
-  private _nextPageToken: string;
+  /* Search mode */
+  private _searchType: SearchType;
 
-  constructor(searchQuery: string, maxViews?: number, publishedBefore?: number) {
+  constructor(searchQuery: string, maxViews: number, publishedBefore: number, searchType: SearchType) {
     this._searchQuery = searchQuery;
 
     this._maxViews = maxViews;
-
-    if (publishedBefore) {
-      this._publishedBefore = publishedBefore;
-    } else {
-      this._publishedBefore = new Date().getFullYear();
-    }
+    this._publishedBefore = publishedBefore;
+    this._searchType = searchType;
   }
+}
+
+/**
+ * Page Info
+ */
+export class PageInfo {
+  get nextPageToken(): string {
+    return this._nextPageToken;
+  }
+  get prevPageToken(): string {
+    return this._prevPageToken;
+  }
+  public totalResults: number;
+
+  private _prevPageToken: string;
+  private _nextPageToken: string;
+
+  public updatePageInfo(resultsJSON) {
+    this.totalResults = resultsJSON.pageInfo.totalResults;
+    this._prevPageToken = resultsJSON.prevPageToken;
+    this._nextPageToken = resultsJSON.nextPageToken;
+  }
+}
+
+/**
+ * Page mode
+ */
+export enum SearchType {
+  NEXT_PAGE,
+  NEW_SEARCH,
+  PREVIOUS_PAGE
 }

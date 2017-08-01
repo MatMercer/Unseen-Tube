@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http, URLSearchParams} from '@angular/http';
-import {UnseenTubeQuery} from './unseen-tube-query.model';
+import {PageInfo, SearchType, UnseenTubeQuery} from './unseen-tube-query.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
 
@@ -9,8 +9,8 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UnseenTubeService {
-  get videoService(): UnseenTubeVideoCollectionService {
-    return this.unseenTubeVideoCollection;
+  get pageInfo(): PageInfo {
+    return this._pageInfo;
   }
   /**
    * API setup
@@ -32,11 +32,20 @@ export class UnseenTubeService {
     return this._currentVideos;
   }
 
+  /**
+   * Current videos
+   */
   private _currentVideos: UnseenTubeVideo[];
+
+  /**
+   * Current pageInfo
+   */
+  private _pageInfo: PageInfo;
 
   constructor(private http: Http,
               private unseenTubeVideoCollection: UnseenTubeVideoCollectionService) {
     this._currentVideos = [];
+    this._pageInfo = new PageInfo();
 
     /* Used for testing */
     // this._currentVideos = [
@@ -52,31 +61,38 @@ export class UnseenTubeService {
    * @param newQuery
    */
   performSearch(newQuery: UnseenTubeQuery) {
-
-    /*
-     Updates the current query for later use
-     if the user wants to use the next page
-     */
-    this.currentQuery = newQuery;
+    if (newQuery.searchType === SearchType.NEW_SEARCH) {
+      /*
+       Updates the current query for later use
+       if the user wants to use the next page
+       */
+      this.currentQuery = newQuery;
+    }
 
     /*
      Creates the API parameters
      */
     const params: URLSearchParams = new URLSearchParams();
     params.set('part', 'id');
-    params.set('q', newQuery.searchQuery);
+    params.set('q', this.currentQuery.searchQuery);
     params.set('type', 'video');
-    params.set('publishedBefore', encodeURI(newQuery.publishedBefore + '-01-01T00:00:00Z'));
+    params.set('publishedBefore', encodeURI(this.currentQuery.publishedBefore + '-01-01T00:00:00Z'));
     params.set('maxResults', '50');
     params.set('key', this.API_KEY);
+
+    /* If next/prev page search, setup it */
+    if (newQuery.searchType === SearchType.NEXT_PAGE) {
+      console.log(this._pageInfo);
+      params.set('pageToken', this._pageInfo.nextPageToken);
+    }
 
     /* Makes the API request with the parameters */
     return this.http
       .get(this.SEARCH_API_URL, {
         search: params
       }).flatMap(
-      (response) => this.onSearchSuccess(response.json())
-    );
+        (response) => this.onSearchSuccess(response.json())
+      );
   }
 
   /**
@@ -86,9 +102,8 @@ export class UnseenTubeService {
    * @param response
    */
   private onSearchSuccess(response) {
-    // console.log(response);
-    /* Setup the next page token for later use */
-    this.currentQuery.nextPageToken = response.nextPageToken;
+    console.log(response);
+    this._pageInfo.updatePageInfo(response);
 
     /*
      Creates the API parameters
@@ -104,9 +119,9 @@ export class UnseenTubeService {
       .get(this.VIDEO_API_URL, {
         search: params
       }).map(
-      (statistics) => this.onVideosStatsSuccess(statistics.json()),
-      (error) => this.onApiError(error.json())
-    );
+        (statistics) => this.onVideosStatsSuccess(statistics.json()),
+        (error) => this.onApiError(error.json())
+      );
 
     // this._currentVideos = this._unseenTubeVideoService.getVideosWithFilter(this.currentQuery);
   }
@@ -119,7 +134,7 @@ export class UnseenTubeService {
   private onVideosStatsSuccess(videosStatis) {
 
     /* Sends to the data to the videos service */
-    this.unseenTubeVideoCollection.parseVideosFromJSON(videosStatis.items)
+    this.unseenTubeVideoCollection.parseVideosFromJSON(videosStatis.items);
 
     this._currentVideos = this.unseenTubeVideoCollection.getVideosWithFilter(this.currentQuery);
 
