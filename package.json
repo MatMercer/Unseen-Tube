@@ -25,6 +25,8 @@
     "bootstrap-material-design": "0.5.10",
     "core-js": "^2.4.1",
     "jquery": "3.2.1",
+    "ng2-nouislider": "1.6.1",
+    "nouislider": "10.0.0",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },

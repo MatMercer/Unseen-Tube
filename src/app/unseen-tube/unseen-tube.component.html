@@ -1,3 +1,61 @@
-<p>
-  unseen-tube works!
-</p>
+<div class="well bs-component">
+  <fieldset [disabled]="isSearching">
+    <div class="form-group col-xs-12">
+      <!-- search bar and button -->
+      <div class="input-group">
+        <!-- search query input -->
+        <input id="search-query" placeholder="Search" type="text" class="form-control input-lg"
+               [(ngModel)]="searchQuery"
+               (keyup.enter)="searchButton.click()">
+        <!-- search button -->
+        <span class="input-group-btn">
+            <button id="search-button" class="btn btn-raised btn-primary input-lg" type="button"
+                    [disabled]="searchQuery == '' || isSearching || maxViewsInput.errors || maxViews < 0 " #searchButton
+                    (click)="performSearch()"><i
+              class="material-icons">search</i></button>
+          </span>
+      </div>
+    </div>
+
+    <div class="form-group col-xs-6">
+      <div class="input-group">
+        <label for="max-views" class="col-sm-6">Search for videos with less than</label>
+        <div class="col-sm-4">
+          <input #maxViewsInput="ngModel" id="max-views" type="number" min="1" max="3000000000"
+                 class="form-control" [(ngModel)]="maxViews">
+        </div>
+        <label *ngIf="maxViews == 1; else viewsLabel" class="col-sm-2">view.</label>
+        <ng-template #viewsLabel>
+          <label class="col-sm-2">views.</label>
+        </ng-template>
+      </div>
+      <nouislider class="slider shor slider-primary noUi-connect" [connect]="true" [min]="1" [max]="1000" [step]="1"
+                  [(ngModel)]="maxViews"></nouislider>
+    </div>
+    <div class="form-group col-xs-6">
+      <div class="input-group">
+        <label for="published-before" class="col-sm-6">Published before</label>
+        <div class="col-sm-4">
+          <input #publishedBeforeInput="ngModel" id="published-before" type="number" min="2006" max="2017"
+                 class="form-control" [(ngModel)]="publishedBefore">
+        </div>
+      </div>
+      <nouislider class="slider shor slider-primary noUi-connect" [connect]="true" [min]="2006" [max]="2017" [step]="1"
+                  [(ngModel)]="publishedBefore"></nouislider>
+    </div>
+  </fieldset>
+
+  <div *ngIf="searchQuery == '' || maxViewsInput.errors || maxViews < 0  || maxViewsInput.errors"
+       class="alert alert-danger fade-element-in">
+    <div [hidden]="searchQuery != ''">
+      Insert a search query.
+    </div>
+
+    <div [hidden]="maxViews > 0">
+      Max views must be positive.
+    </div>
+  </div>
+  <div [hidden]="!isSearching" class="progress progress-striped active">
+    <div id="progress-bar" class="progress-bar" style="width: 2%"></div>
+  </div>
+</div>
