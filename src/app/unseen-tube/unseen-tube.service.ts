@@ -6,6 +6,7 @@ import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
 
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
+import {isUndefined} from "util";
 
 @Injectable()
 export class UnseenTubeService {
@@ -80,7 +81,7 @@ export class UnseenTubeService {
     params.set('maxResults', '50');
     params.set('key', this.API_KEY);
 
-    /* If next/prev page search, setup it */
+    /* If next/prev/jump page search, setup it */
     if (newQuery.searchType === SearchType.NEXT_PAGE) {
       console.log(this._pageInfo);
       params.set('pageToken', this._pageInfo.nextPageToken);
@@ -88,6 +89,10 @@ export class UnseenTubeService {
     (newQuery.searchType === SearchType.PREVIOUS_PAGE) {
       console.log(this._pageInfo);
       params.set('pageToken', this._pageInfo.prevPageToken);
+    } else if
+    (newQuery.searchType === SearchType.JUMP_TO_PAGE) {
+      console.log(this._pageInfo);
+      params.set('pageToken', newQuery.pageToken);
     }
 
     /* Makes the API request with the parameters */

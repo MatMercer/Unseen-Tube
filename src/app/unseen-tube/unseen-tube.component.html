@@ -61,6 +61,10 @@
   </div>
 </div>
 <div [hidden]="!(this.unseenService.currentVideos.length > 0)" class="container well bs-component">
+  <p class=".lead">
+    Youtube returned {{this.unseenService.pageInfo.totalResults}} videos for this search. The videos below are
+    based in your custom search.
+  </p>
   <fieldset [disabled]="this.isSearching">
     <div class="form-group col-xs-12">
       <!-- next/prev button -->
@@ -72,7 +76,6 @@
                          #searchButton
                          (click)="previousPage()"><i
                    class="material-icons">navigate_before</i></button>
-
                 <button id="next-page-button" class="btn btn-raised btn-primary pull-right" type="button"
                         [disabled]="searchQuery == '' || isSearching || maxViewsInput.errors || maxViews < 0
                         || this.unseenService.pageInfo.nextPageToken == undefined"

@@ -1,4 +1,10 @@
 export class UnseenTubeQuery {
+  get pageToken(): string {
+    return this._pageToken;
+  }
+  set searchType(value: SearchType) {
+    this._searchType = value;
+  }
   get searchType(): SearchType {
     return this._searchType;
   }
@@ -23,8 +29,10 @@ export class UnseenTubeQuery {
   private _publishedBefore: number;
   /* Search mode */
   private _searchType: SearchType;
+  /* Custom page token */
+  private _pageToken: string;
 
-  constructor(searchQuery: string, maxViews: number, publishedBefore: number, searchType: SearchType) {
+  constructor(searchQuery: string, maxViews: number, publishedBefore: number, searchType: SearchType, pageToken?: string) {
     this._searchQuery = searchQuery;
 
     this._maxViews = maxViews;
@@ -61,5 +69,6 @@ export class PageInfo {
 export enum SearchType {
   NEXT_PAGE,
   NEW_SEARCH,
-  PREVIOUS_PAGE
+  PREVIOUS_PAGE,
+  JUMP_TO_PAGE
 }

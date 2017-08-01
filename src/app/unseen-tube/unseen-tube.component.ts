@@ -5,6 +5,7 @@ import {SearchType, UnseenTubeQuery} from './unseen-tube-query.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {UnseenTubeVideo} from "./unseen-tube-video/unseen-tube-video.model";
 import {isUndefined} from "util";
+import {isDefined} from "@angular/compiler/src/util";
 
 
 @Component({
@@ -31,14 +32,14 @@ export class UnseenTubeComponent implements OnInit {
   ngOnInit() {
   }
 
-  private performSearch(searchType?: SearchType) {
+  private performSearch(searchType?: SearchType, pageToken?: string) {
     this.isSearching = true;
 
     if (isUndefined(searchType)) {
       searchType = SearchType.NEW_SEARCH;
     }
 
-    this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore, searchType))
+    this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore, searchType, pageToken))
       .subscribe(() => this.finishSearch());
 
   }
@@ -58,10 +59,8 @@ export class UnseenTubeComponent implements OnInit {
     if (this.unseenService.currentVideos.length === 0 ) {
         if (!isUndefined(this.unseenService.pageInfo.nextPageToken)) {
           this.nextPage();
-        } else if
-        (!isUndefined(this.unseenService.pageInfo.prevPageToken)) {
+        } else {
           /* TODO: Tell the user that no more results was found in the next page */
-          this.previousPage();
         }
         /* TODO: Tell the user that no results was found */
     }
