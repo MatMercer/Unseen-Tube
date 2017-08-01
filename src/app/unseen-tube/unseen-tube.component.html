@@ -61,6 +61,30 @@
   </div>
 </div>
 <div [hidden]="!(this.unseenService.currentVideos.length > 0)" class="container well bs-component">
-  <app-unseen-tube-video-collection [videoCollection]="this.unseenService.currentVideos"></app-unseen-tube-video-collection>
+  <fieldset [disabled]="this.isSearching">
+    <div class="form-group col-xs-12">
+      <!-- next/prev button -->
+      <div class="input-group">
+        <span class="input-group-btn">
+                 <button id="prev-page-button" class="btn btn-raised btn-primary pull-left" type="button"
+                         [disabled]="searchQuery == '' || isSearching || maxViewsInput.errors || maxViews < 0
+                         || this.unseenService.pageInfo.prevPageToken == undefined"
+                         #searchButton
+                         (click)="previousPage()"><i
+                   class="material-icons">navigate_before</i></button>
+
+                <button id="next-page-button" class="btn btn-raised btn-primary pull-right" type="button"
+                        [disabled]="searchQuery == '' || isSearching || maxViewsInput.errors || maxViews < 0
+                        || this.unseenService.pageInfo.nextPageToken == undefined"
+                        #searchButton
+                        (click)="nextPage()"><i
+                  class="material-icons">navigate_next</i></button>
+          </span>
+      </div>
+    </div>
+
+  </fieldset>
+  <app-unseen-tube-video-collection
+    [videoCollection]="this.unseenService.currentVideos"></app-unseen-tube-video-collection>
 </div>
 

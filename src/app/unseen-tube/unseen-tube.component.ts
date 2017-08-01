@@ -43,11 +43,27 @@ export class UnseenTubeComponent implements OnInit {
 
   }
 
+  private nextPage() {
+    this.performSearch(SearchType.NEXT_PAGE);
+  }
+
+  private previousPage() {
+    this.performSearch(SearchType.PREVIOUS_PAGE);
+  }
+
   private finishSearch() {
     this.isSearching = false;
 
-    if (this.unseenService.currentVideos.length === 0) {
-        this.performSearch(SearchType.NEXT_PAGE);
+    /* Automatically go to next or previous page when necessary */
+    if (this.unseenService.currentVideos.length === 0 ) {
+        if (!isUndefined(this.unseenService.pageInfo.nextPageToken)) {
+          this.nextPage();
+        } else if
+        (!isUndefined(this.unseenService.pageInfo.prevPageToken)) {
+          /* TODO: Tell the user that no more results was found in the next page */
+          this.previousPage();
+        }
+        /* TODO: Tell the user that no results was found */
     }
   }
 }

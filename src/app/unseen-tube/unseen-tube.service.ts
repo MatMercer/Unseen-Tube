@@ -84,6 +84,10 @@ export class UnseenTubeService {
     if (newQuery.searchType === SearchType.NEXT_PAGE) {
       console.log(this._pageInfo);
       params.set('pageToken', this._pageInfo.nextPageToken);
+    } else if
+    (newQuery.searchType === SearchType.PREVIOUS_PAGE) {
+      console.log(this._pageInfo);
+      params.set('pageToken', this._pageInfo.prevPageToken);
     }
 
     /* Makes the API request with the parameters */
