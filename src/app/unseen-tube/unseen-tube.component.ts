@@ -21,7 +21,7 @@ export class UnseenTubeComponent implements OnInit {
   publishedBefore: number;
   @ViewChild('searchButton') searchButton: ElementRef;
 
-  constructor(protected unseenService: UnseenTubeService) {
+  constructor(public unseenService: UnseenTubeService) {
     /* Variables setup */
     this.searchQuery = 'webdriver torso';
     this.isSearching = false;
@@ -32,7 +32,7 @@ export class UnseenTubeComponent implements OnInit {
   ngOnInit() {
   }
 
-  private performSearch(searchType?: SearchType, pageToken?: string) {
+  public performSearch(searchType?: SearchType, pageToken?: string) {
     this.isSearching = true;
 
     if (isUndefined(searchType)) {
@@ -44,25 +44,25 @@ export class UnseenTubeComponent implements OnInit {
 
   }
 
-  private nextPage() {
+  public nextPage() {
     this.performSearch(SearchType.NEXT_PAGE);
   }
 
-  private previousPage() {
+  public previousPage() {
     this.performSearch(SearchType.PREVIOUS_PAGE);
   }
 
-  private finishSearch() {
+  public finishSearch() {
     this.isSearching = false;
 
     /* Automatically go to next or previous page when necessary */
-    if (this.unseenService.currentVideos.length === 0 ) {
-        if (!isUndefined(this.unseenService.pageInfo.nextPageToken)) {
-          this.nextPage();
-        } else {
-          /* TODO: Tell the user that no more results was found in the next page */
-        }
-        /* TODO: Tell the user that no results was found */
+    if (this.unseenService.currentVideos.length === 0) {
+      if (!isUndefined(this.unseenService.pageInfo.nextPageToken)) {
+        this.nextPage();
+      } else {
+        /* TODO: Tell the user that no more results was found in the next page */
+      }
+      /* TODO: Tell the user that no results was found */
     }
   }
 }
