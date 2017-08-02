@@ -3,9 +3,7 @@ import 'rxjs/add/operator/map';
 import {UnseenTubeService} from './unseen-tube.service';
 import {SearchType, UnseenTubeQuery} from './unseen-tube-search.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
-import {UnseenTubeVideo} from "./unseen-tube-video/unseen-tube-video.model";
-import {isUndefined} from "util";
-import {isDefined} from "@angular/compiler/src/util";
+import {isUndefined} from 'util';
 
 
 @Component({
@@ -32,14 +30,14 @@ export class UnseenTubeComponent implements OnInit {
   ngOnInit() {
   }
 
-  public performSearch(searchType?: SearchType, pageToken?: string) {
+  public performSearch(searchType?: SearchType) {
     this.isSearching = true;
 
     if (isUndefined(searchType)) {
       searchType = SearchType.NEW_SEARCH;
     }
 
-    this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore, searchType, pageToken))
+    this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore, searchType))
       .subscribe(() => this.finishSearch());
 
   }

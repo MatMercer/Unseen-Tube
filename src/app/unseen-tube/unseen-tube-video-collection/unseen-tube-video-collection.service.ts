@@ -13,9 +13,6 @@ export class UnseenTubeVideoCollectionService {
    */
   private _videos: UnseenTubeVideo[];
 
-  constructor() {
-  }
-
   /**
    * Get an string ID array of videos
    * from a JSON Youtube search API items
@@ -23,7 +20,7 @@ export class UnseenTubeVideoCollectionService {
    * @param items
    * @returns {string[]}
    */
-  getVideosIdsFromJson(items) {
+  static getVideosIdsFromJson(items) {
     const ids: string[] = [];
 
     /* Iterates through all the videos inside items json and get the id's */
@@ -33,6 +30,7 @@ export class UnseenTubeVideoCollectionService {
 
     return ids;
   }
+
 
   /**
    * Creates a new video and add it to
@@ -83,7 +81,7 @@ export class UnseenTubeVideoCollectionService {
    * @returns {(video:any)=>boolean}
    */
   private filterVideoByQuery(query: UnseenTubeQuery) {
-    return function(video) {
+    return function (video) {
       return video.views < query.maxViews;
     }
   }

@@ -2,9 +2,11 @@ export class UnseenTubeVideo {
   get postDate(): Date {
     return this._postDate;
   }
+
   get views(): number {
     return this._views;
   }
+
   get videoId(): string {
     return this._videoId;
   }

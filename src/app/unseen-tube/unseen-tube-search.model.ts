@@ -2,9 +2,7 @@ export class UnseenTubeQuery {
   get pageToken(): string {
     return this._pageToken;
   }
-  set searchType(value: SearchType) {
-    this._searchType = value;
-  }
+
   get searchType(): SearchType {
     return this._searchType;
   }
@@ -32,7 +30,7 @@ export class UnseenTubeQuery {
   /* Custom page token */
   private _pageToken: string;
 
-  constructor(searchQuery: string, maxViews: number, publishedBefore: number, searchType: SearchType, pageToken?: string) {
+  constructor(searchQuery: string, maxViews: number, publishedBefore: number, searchType: SearchType) {
     this._searchQuery = searchQuery;
 
     this._maxViews = maxViews;
@@ -48,9 +46,11 @@ export class PageInfo {
   get nextPageToken(): string {
     return this._nextPageToken;
   }
+
   get prevPageToken(): string {
     return this._prevPageToken;
   }
+
   public totalResults: number;
 
   private _prevPageToken: string;

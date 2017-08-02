@@ -6,13 +6,13 @@ import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
 
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
-import {isUndefined} from "util";
 
 @Injectable()
 export class UnseenTubeService {
   get pageInfo(): PageInfo {
     return this._pageInfo;
   }
+
   /**
    * API setup
    */
@@ -120,7 +120,7 @@ export class UnseenTubeService {
     const params: URLSearchParams = new URLSearchParams();
     params.set('part', 'statistics');
     /* Here the videos ID's are passed to the other Youtube API */
-    params.set('id', this.unseenTubeVideoCollection.getVideosIdsFromJson(response.items).join());
+    params.set('id', UnseenTubeVideoCollectionService.getVideosIdsFromJson(response.items).join());
     params.set('key', this.API_KEY);
 
     /* Makes the API request with the parameters */
@@ -156,7 +156,7 @@ export class UnseenTubeService {
    */
   // TODO: Better error message
   private onApiError(error: JSON) {
-    console.log(error)
+    console.log(this.currentQuery + '\n ERROR: ' + error);
   }
 
 }

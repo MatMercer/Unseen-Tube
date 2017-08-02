@@ -7,7 +7,6 @@ import {DomSanitizer} from '@angular/platform-browser';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
 }
 
 
