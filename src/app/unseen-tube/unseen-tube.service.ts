@@ -142,11 +142,18 @@ export class UnseenTubeService {
    * @param videosStatis
    */
   private onVideosStatsSuccess(videosStatis) {
-
     /* Sends to the data to the videos service */
     this.unseenTubeVideoCollection.parseVideosFromJSON(videosStatis.items);
 
-    this._currentVideos = this.unseenTubeVideoCollection.getVideosWithFilter(this.currentQuery);
+    return this.videosWithFilter(this.currentQuery);
+  }
+
+  /**
+   * This function returns filtered videos based in an
+   * UnseenTubeQuery and assigns the internal _currentVideos variable
+   */
+  public videosWithFilter(unseenTubeQuery: UnseenTubeQuery) {
+    this._currentVideos = this.unseenTubeVideoCollection.getVideosWithFilter(unseenTubeQuery);
 
     return this._currentVideos;
   }
