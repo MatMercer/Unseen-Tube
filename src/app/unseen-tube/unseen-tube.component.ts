@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {UnseenTubeService} from './unseen-tube.service';
-import {SearchType, UnseenTubeQuery} from './unseen-tube-query.model';
+import {SearchType, UnseenTubeQuery} from './unseen-tube-search.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {UnseenTubeVideo} from "./unseen-tube-video/unseen-tube-video.model";
 import {isUndefined} from "util";

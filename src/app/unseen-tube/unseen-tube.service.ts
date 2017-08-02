@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Http, URLSearchParams} from '@angular/http';
-import {PageInfo, SearchType, UnseenTubeQuery} from './unseen-tube-query.model';
+import {PageInfo, SearchType, UnseenTubeQuery} from './unseen-tube-search.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
 
