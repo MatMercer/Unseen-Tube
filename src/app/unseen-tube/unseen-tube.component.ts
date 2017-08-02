@@ -50,7 +50,7 @@ export class UnseenTubeComponent implements OnInit {
     this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore, searchType))
       .subscribe(() => this.finishSearch());
 
-    /* Updates the lastSearchQuery to disable next/previous page buttons when necessary */
+    /* Updates the lastSearchQuery */
     this.lastSearchQuery = this.searchQuery;
   }
 
