@@ -14,6 +14,7 @@ import {isUndefined} from 'util';
 })
 export class UnseenTubeComponent implements OnInit {
   searchQuery: string;
+  lastSearchQuery: string;
   isSearching: boolean;
   maxViews: number;
   publishedBefore: number;
@@ -22,14 +23,23 @@ export class UnseenTubeComponent implements OnInit {
   constructor(public unseenService: UnseenTubeService) {
     /* Variables setup */
     this.searchQuery = 'webdriver torso';
+    this.lastSearchQuery = this.searchQuery;
     this.isSearching = false;
     this.maxViews = 500;
-    this.publishedBefore = new Date().getFullYear();
+    this.publishedBefore = new Date().getFullYear() + 1;
+
+    /* Makes a first search */
+    this.performSearch();
   }
 
   ngOnInit() {
   }
 
+  /**
+   * Performs a search with the desired search type
+   * If no type is supplied, SearchType.NEW_SEARCH is used
+   * @param {SearchType} searchType
+   */
   public performSearch(searchType?: SearchType) {
     this.isSearching = true;
 
@@ -40,18 +50,30 @@ export class UnseenTubeComponent implements OnInit {
     this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore, searchType))
       .subscribe(() => this.finishSearch());
 
+    /* Updates the lastSearchQuery to disable next/previous page buttons when necessary */
+    this.lastSearchQuery = this.searchQuery;
   }
 
+  /**
+   * Performs a next page search
+   */
   public nextPage() {
     this.performSearch(SearchType.NEXT_PAGE);
   }
 
+  /**
+   * Performs a previous page search
+   */
   public previousPage() {
     this.performSearch(SearchType.PREVIOUS_PAGE);
   }
 
+  /**
+   * Method called when a search is finished
+   */
   public finishSearch() {
     this.isSearching = false;
+
 
     /* Automatically go to next or previous page when necessary */
     if (this.unseenService.currentVideos.length === 0) {
@@ -60,7 +82,6 @@ export class UnseenTubeComponent implements OnInit {
       } else {
         /* TODO: Tell the user that no more results was found in the next page */
       }
-      /* TODO: Tell the user that no results was found */
     }
   }
 }
