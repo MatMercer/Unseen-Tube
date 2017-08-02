@@ -74,13 +74,13 @@
       <div class="input-group">
         <span class="input-group-btn">
                  <button id="prev-page-button" class="btn btn-raised btn-primary pull-left" type="button"
-                         [disabled]="unseenTubeQuery.searchQuery == '' || isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
-                         || this.unseenService.pageInfo.prevPageToken == undefined"
+                         [disabled]="isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
+                         || this.unseenService.isInFirstPage()"
                          (click)="previousPage()"><i
                    class="material-icons">navigate_before</i></button>
                 <button id="next-page-button" class="btn btn-raised btn-primary pull-right" type="button"
                         [disabled]="isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
-                        || this.unseenService.pageInfo.nextPageToken == undefined"
+                        || this.unseenService.isInLastPage()"
                         (click)="nextPage()"><i
                   class="material-icons">navigate_next</i></button>
           </span>

@@ -3,6 +3,7 @@ import {Http, URLSearchParams} from '@angular/http';
 import {PageInfo, SearchType, UnseenTubeQuery} from './unseen-tube-search.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
+import {isUndefined} from 'util';
 
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
@@ -89,11 +90,11 @@ export class UnseenTubeService {
     (newQuery.searchType === SearchType.PREVIOUS_PAGE) {
       console.log(this._pageInfo);
       params.set('pageToken', this._pageInfo.prevPageToken);
-    } else if
+    } /* else if
     (newQuery.searchType === SearchType.JUMP_TO_PAGE) {
       console.log(this._pageInfo);
       params.set('pageToken', newQuery.pageToken);
-    }
+    } */
 
     /* Makes the API request with the parameters */
     return this.http
@@ -157,6 +158,22 @@ export class UnseenTubeService {
   // TODO: Better error message
   private onApiError(error: JSON) {
     console.log(this.currentQuery + '\n ERROR: ' + error);
+  }
+
+  /**
+   * Returns true if the service is in the last page
+   * @returns {boolean}
+   */
+  isInLastPage() {
+    return isUndefined(this.pageInfo.nextPageToken);
+  }
+
+  /**
+   * Returns true if the service is in the first page
+   * @returns {boolean}
+   */
+  isInFirstPage() {
+    return isUndefined(this.pageInfo.prevPageToken);
   }
 
 }
