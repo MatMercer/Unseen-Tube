@@ -84,11 +84,9 @@ export class UnseenTubeService {
 
     /* If next/prev/jump page search, setup it */
     if (newQuery.searchType === SearchType.NEXT_PAGE) {
-      console.log(this._pageInfo);
       params.set('pageToken', this._pageInfo.nextPageToken);
     } else if
     (newQuery.searchType === SearchType.PREVIOUS_PAGE) {
-      console.log(this._pageInfo);
       params.set('pageToken', this._pageInfo.prevPageToken);
     } /* else if
     (newQuery.searchType === SearchType.JUMP_TO_PAGE) {
@@ -112,7 +110,6 @@ export class UnseenTubeService {
    * @param response
    */
   private onSearchSuccess(response) {
-    console.log(response);
     this._pageInfo.updatePageInfo(response);
 
     /*
