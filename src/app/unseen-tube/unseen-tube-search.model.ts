@@ -1,41 +1,19 @@
 export class UnseenTubeQuery {
-  get pageToken(): string {
-    return this._pageToken;
-  }
-
-  get searchType(): SearchType {
-    return this._searchType;
-  }
-
-  get publishedBefore(): number {
-    return this._publishedBefore;
-  }
-
-  get maxViews(): number {
-    return this._maxViews;
-  }
-
-  get searchQuery(): string {
-    return this._searchQuery;
-  }
-
   /**
    * Search query data
    */
-  private _searchQuery: string;
-  private _maxViews: number;
-  private _publishedBefore: number;
+  searchQuery: string;
+  maxViews: number;
+  publishedBefore: number;
   /* Search mode */
-  private _searchType: SearchType;
-  /* Custom page token */
-  private _pageToken: string;
+  searchType: SearchType;
 
-  constructor(searchQuery: string, maxViews: number, publishedBefore: number, searchType: SearchType) {
-    this._searchQuery = searchQuery;
+  constructor(searchQuery?: string, maxViews?: number, publishedBefore?: number, searchType?: SearchType) {
+    this.searchQuery = searchQuery;
 
-    this._maxViews = maxViews;
-    this._publishedBefore = publishedBefore;
-    this._searchType = searchType;
+    this.maxViews = maxViews;
+    this.publishedBefore = publishedBefore;
+    this.searchType = searchType;
   }
 }
 

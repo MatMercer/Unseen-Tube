@@ -5,12 +5,12 @@
       <div class="input-group">
         <!-- search query input -->
         <input id="search-query" placeholder="Search" class="form-control input-lg"
-               [(ngModel)]="searchQuery"
+               [(ngModel)]="unseenTubeQuery.searchQuery"
                (keyup.enter)="performSearch()">
         <!-- search button -->
         <span class="input-group-btn">
             <button id="search-button" class="btn btn-raised btn-primary input-lg" type="button"
-                    [disabled]="searchQuery == '' || isSearching || maxViewsInput.errors || maxViews < 0 " #searchButton
+                    [disabled]="unseenTubeQuery.searchQuery == '' || isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0 " #searchButton
                     (click)="performSearch()"><i
               class="material-icons">search</i></button>
           </span>
@@ -22,36 +22,36 @@
         <label for="max-views" class="col-sm-6">Search for videos with less than</label>
         <div class="col-sm-4">
           <input #maxViewsInput="ngModel" id="max-views" type="number" min="1" max="3000000000"
-                 class="form-control" [(ngModel)]="maxViews">
+                 class="form-control" [(ngModel)]="this.unseenTubeQuery.maxViews">
         </div>
-        <label *ngIf="maxViews == 1; else viewsLabel" class="col-sm-2">view.</label>
+        <label *ngIf="this.unseenTubeQuery.maxViews == 1; else viewsLabel" class="col-sm-2">view.</label>
         <ng-template #viewsLabel>
           <label class="col-sm-2">views.</label>
         </ng-template>
       </div>
       <nouislider class="slider shor slider-primary noUi-connect" [connect]="true" [min]="1" [max]="1000" [step]="1"
-                  [(ngModel)]="maxViews"></nouislider>
+                  [(ngModel)]="this.unseenTubeQuery.maxViews"></nouislider>
     </div>
     <div class="form-group col-xs-6">
       <div class="input-group">
         <label for="published-before" class="col-sm-6">Published before</label>
         <div class="col-sm-4">
           <input #publishedBeforeInput="ngModel" id="published-before" type="number" min="2006" max="2018"
-                 class="form-control" [(ngModel)]="publishedBefore">
+                 class="form-control" [(ngModel)]="this.unseenTubeQuery.publishedBefore">
         </div>
       </div>
       <nouislider class="slider shor slider-primary noUi-connect" [connect]="true" [min]="2006" [max]="2018" [step]="1"
-                  [(ngModel)]="publishedBefore"></nouislider>
+                  [(ngModel)]="this.unseenTubeQuery.publishedBefore"></nouislider>
     </div>
   </fieldset>
 
-  <div *ngIf="searchQuery == '' || maxViewsInput.errors || maxViews < 0  || maxViewsInput.errors"
+  <div *ngIf="unseenTubeQuery.searchQuery == '' || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0  || maxViewsInput.errors"
        class="alert alert-danger fade-element-in">
-    <div [hidden]="searchQuery != ''">
+    <div [hidden]="unseenTubeQuery.searchQuery != ''">
       Insert a search query.
     </div>
 
-    <div [hidden]="maxViews > 0">
+    <div [hidden]="this.unseenTubeQuery.maxViews > 0">
       Max views must be positive.
     </div>
   </div>
@@ -74,13 +74,12 @@
       <div class="input-group">
         <span class="input-group-btn">
                  <button id="prev-page-button" class="btn btn-raised btn-primary pull-left" type="button"
-                         [disabled]="searchQuery == '' || isSearching || maxViewsInput.errors || maxViews < 0
-                         || this.unseenService.pageInfo.prevPageToken == undefined
-                         || this.lastSearchQuery !== this.searchQuery"
+                         [disabled]="unseenTubeQuery.searchQuery == '' || isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
+                         || this.unseenService.pageInfo.prevPageToken == undefined"
                          (click)="previousPage()"><i
                    class="material-icons">navigate_before</i></button>
                 <button id="next-page-button" class="btn btn-raised btn-primary pull-right" type="button"
-                        [disabled]="isSearching || maxViewsInput.errors || maxViews < 0
+                        [disabled]="isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
                         || this.unseenService.pageInfo.nextPageToken == undefined"
                         (click)="nextPage()"><i
                   class="material-icons">navigate_next</i></button>

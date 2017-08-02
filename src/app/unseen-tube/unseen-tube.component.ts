@@ -13,19 +13,18 @@ import {isUndefined} from 'util';
   providers: [UnseenTubeService, UnseenTubeVideoCollectionService]
 })
 export class UnseenTubeComponent implements OnInit {
-  searchQuery: string;
+  unseenTubeQuery: UnseenTubeQuery;
   lastSearchQuery: string;
   isSearching: boolean;
-  maxViews: number;
-  publishedBefore: number;
 
   constructor(public unseenService: UnseenTubeService) {
     /* Variables setup */
-    this.searchQuery = 'webdriver torso';
-    this.lastSearchQuery = this.searchQuery;
+    this.unseenTubeQuery = new UnseenTubeQuery();
+    this.unseenTubeQuery.searchQuery = 'webdriver torso';
+    this.lastSearchQuery = this.unseenTubeQuery.searchQuery;
     this.isSearching = false;
-    this.maxViews = 500;
-    this.publishedBefore = new Date().getFullYear() + 1;
+    this.unseenTubeQuery.maxViews = 500;
+    this.unseenTubeQuery.publishedBefore = new Date().getFullYear() + 1;
 
     /* Makes a first search */
     this.performSearch();
@@ -43,14 +42,16 @@ export class UnseenTubeComponent implements OnInit {
     this.isSearching = true;
 
     if (isUndefined(searchType)) {
-      searchType = SearchType.NEW_SEARCH;
+      this.unseenTubeQuery.searchType = SearchType.NEW_SEARCH;
+    } else {
+      this.unseenTubeQuery.searchType = searchType;
     }
 
-    this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore, searchType))
+    this.unseenService.performSearch(this.unseenTubeQuery)
       .subscribe(() => this.finishSearch());
 
     /* Updates the lastSearchQuery */
-    this.lastSearchQuery = this.searchQuery;
+    this.lastSearchQuery = this.unseenTubeQuery.searchQuery;
   }
 
   /**
@@ -72,7 +73,6 @@ export class UnseenTubeComponent implements OnInit {
    */
   public finishSearch() {
     this.isSearching = false;
-
 
     /* Automatically go to next or previous page when necessary */
     if (this.unseenService.currentVideos.length === 0) {
