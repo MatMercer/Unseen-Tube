@@ -31,6 +31,10 @@ export class UnseenTubeVideoCollectionService {
     return ids;
   }
 
+  constructor() {
+    this._videos = [];
+  }
+
 
   /**
    * Creates a new video and add it to
