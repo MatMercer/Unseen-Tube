@@ -18,7 +18,6 @@ export class UnseenTubeComponent implements OnInit {
   isSearching: boolean;
   maxViews: number;
   publishedBefore: number;
-  @ViewChild('searchButton') searchButton: ElementRef;
 
   constructor(public unseenService: UnseenTubeService) {
     /* Variables setup */

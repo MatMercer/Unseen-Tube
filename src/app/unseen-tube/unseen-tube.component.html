@@ -6,7 +6,7 @@
         <!-- search query input -->
         <input id="search-query" placeholder="Search" class="form-control input-lg"
                [(ngModel)]="searchQuery"
-               (keyup.enter)="searchButton.click()">
+               (keyup.enter)="performSearch()">
         <!-- search button -->
         <span class="input-group-btn">
             <button id="search-button" class="btn btn-raised btn-primary input-lg" type="button"
