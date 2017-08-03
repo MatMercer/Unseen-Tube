@@ -69,9 +69,9 @@
       <div class="input-group">
         <span class="input-group-btn">
                 <button id="prev-page-button" class="btn btn-raised btn-primary pull-left" type="button"
-                         [disabled]="isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
+                        [disabled]="isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
                          || this.unseenService.isInFirstPage()"
-                         (click)="previousPage()">
+                        (click)="previousPage()">
                    Previous Page</button>
                 <button id="next-page-button" class="btn btn-raised btn-primary pull-right" type="button"
                         [disabled]="isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
@@ -83,23 +83,37 @@
     </div>
   </fieldset>
   <div [hidden]="!(this.unseenService.currentVideos.length > 0)" class="col-sm-12">
-    <p class=".lead">
-      <b>Youtube returned {{this.unseenService.pageInfo.totalResults}} videos for "{{this.lastSearchQuery}}"</b>. The
-      videos below are
-      based in your custom search. Change the form and search again to generate new pages based in your new search.
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Success!</h3>
+        </div>
+        <div class="panel-body">
+          <p class=".lead">
+      <b>Youtube returned {{this.unseenService.pageInfo.totalResults}} videos for "{{this.lastSearchQuery}}".</b>
     </p>
     <p class=".lead">
-      <b>Unseen Tube found {{this.unseenService.currentVideos.length}} videos for this page</b>.
+      <b>Unseen Tube found {{this.unseenService.currentVideos.length}} videos for this page.</b>
     </p>
-
-    <app-unseen-tube-video-collection
-      [videoCollection]="this.unseenService.videosWithFilter(this.unseenTubeQuery)"></app-unseen-tube-video-collection>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <app-unseen-tube-video-collection
+    [videoCollection]="this.unseenService.videosWithFilter(this.unseenTubeQuery)"></app-unseen-tube-video-collection>
+
   <div [hidden]="this.unseenService.currentVideos.length !== 0" class="col-sm-12">
     <div class="col-sm-6 col-sm-offset-3">
-      <h2 class="text-center">
-        No Videos Found :(
-      </h2>
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h3 class="panel-title">No videos found on this page!</h3>
+        </div>
+        <div class="panel-body">
+          Unseen Tube didn't found any videos on this page! But don't give up! <b>Try changing the sliders above or
+          going to the next/previous page!</b>.
+        </div>
+      </div>
     </div>
   </div>
 </div>
