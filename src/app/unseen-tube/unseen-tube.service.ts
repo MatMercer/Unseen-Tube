@@ -66,9 +66,10 @@ export class UnseenTubeService {
     if (newQuery.searchType === SearchType.NEW_SEARCH) {
       /*
        Updates the current query for later use
-       if the user wants to use the next page
+       if the user wants to use the next page.
+       It updates the current query WITHOUT DATA BINDING
        */
-      this.currentQuery = newQuery;
+      this.currentQuery = Object.assign({}, newQuery);
     }
 
     /*

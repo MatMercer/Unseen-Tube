@@ -42,7 +42,6 @@ export class UnseenTubeVideoCollectionService {
    * @param items
    */
   parseVideosFromJSON(items) {
-    console.log(items);
     /* Iterates through all the videos inside items json and adds it */
     const newVideos = [];
     for (const video of items) {
@@ -51,8 +50,6 @@ export class UnseenTubeVideoCollectionService {
     }
 
     this._videos = newVideos;
-
-    console.log(this._videos);
   }
 
   /**
