@@ -42,13 +42,17 @@ export class UnseenTubeVideoCollectionService {
    * @param items
    */
   parseVideosFromJSON(items) {
+    console.log(items);
     /* Iterates through all the videos inside items json and adds it */
     const newVideos = [];
     for (const video of items) {
-      newVideos.push(new UnseenTubeVideo(video.id, Number(video.statistics.viewCount), null));
+       newVideos.push(new UnseenTubeVideo(video.snippet.title, video.snippet.channelTitle, video.id,
+         Number(video.statistics.viewCount), new Date(video.snippet.publishedAt), video.snippet.thumbnails.high.url));
     }
 
     this._videos = newVideos;
+
+    console.log(this._videos);
   }
 
   /**
@@ -57,8 +61,8 @@ export class UnseenTubeVideoCollectionService {
    * @returns {(video:any)=>boolean}
    */
   private filterVideoByQuery(query: UnseenTubeQuery) {
-    return function (video) {
-      return video.views < query.maxViews;
+    return function (video: UnseenTubeVideo) {
+      return video.views < query.maxViews && video.postDate.getFullYear() < query.publishedBefore;
     }
   }
 

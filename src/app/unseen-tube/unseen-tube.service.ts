@@ -116,7 +116,7 @@ export class UnseenTubeService {
      Creates the API parameters
      */
     const params: URLSearchParams = new URLSearchParams();
-    params.set('part', 'statistics');
+    params.set('part', 'snippet,statistics');
     /* Here the videos ID's are passed to the other Youtube API */
     params.set('id', UnseenTubeVideoCollectionService.getVideosIdsFromJson(response.items).join());
     params.set('key', this.API_KEY);

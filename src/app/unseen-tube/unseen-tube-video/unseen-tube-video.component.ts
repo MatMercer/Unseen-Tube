@@ -22,8 +22,8 @@ export class UnseenTubeVideoComponent implements OnInit {
   /**
    * Returns a red percentage rbg CSS color based in the video views, eg:
    * views = 0 -> Returns pure red, 'rgb(255, 0, 0)'
-   * vides = 50 -> Returns 'rbg(125, 0, 0)'
-   * vides >= 100 -> Returns black
+   * views = 50 -> Returns 'rbg(125, 0, 0)'
+   * views >= 100 -> Returns black
    * @returns {string}
    */
   getViewsRedColor() {
@@ -32,10 +32,6 @@ export class UnseenTubeVideoComponent implements OnInit {
     }
 
     return 'rbg(0, 0, 0)';
-  }
-
-  getThumbUrl() {
-    return 'https://i.ytimg.com/vi/' + this.video.videoId + '/hqdefault.jpg';
   }
 
   play() {
