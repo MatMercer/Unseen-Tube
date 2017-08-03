@@ -10,14 +10,15 @@
         <!-- search button -->
         <span class="input-group-btn">
             <button id="search-button" class="btn btn-raised btn-primary input-lg" type="button"
-                    [disabled]="unseenTubeQuery.searchQuery == '' || isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0 " #searchButton
+                    [disabled]="unseenTubeQuery.searchQuery == '' || isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0 "
+                    #searchButton
                     (click)="performSearch()"><i
               class="material-icons">search</i></button>
           </span>
       </div>
     </div>
 
-    <div class="form-group col-xs-6">
+    <div class="form-group col-sm-6">
       <div class="input-group">
         <label for="max-views" class="col-sm-6">Search for videos with less than</label>
         <div class="col-sm-4">
@@ -32,7 +33,7 @@
       <nouislider class="slider shor slider-primary noUi-connect" [connect]="true" [min]="1" [max]="1000" [step]="1"
                   [(ngModel)]="this.unseenTubeQuery.maxViews"></nouislider>
     </div>
-    <div class="form-group col-xs-6">
+    <div class="form-group col-sm-6">
       <div class="input-group">
         <label for="published-before" class="col-sm-6">Published before</label>
         <div class="col-sm-4">
@@ -45,8 +46,9 @@
     </div>
   </fieldset>
 
-  <div *ngIf="unseenTubeQuery.searchQuery == '' || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0  || maxViewsInput.errors"
-       class="alert alert-danger fade-element-in">
+  <div
+    *ngIf="unseenTubeQuery.searchQuery == '' || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0  || maxViewsInput.errors"
+    class="alert alert-danger fade-element-in">
     <div [hidden]="unseenTubeQuery.searchQuery != ''">
       Insert a search query.
     </div>
@@ -60,18 +62,20 @@
     <div id="progress-bar" class="progress-bar" style="width: 2%"></div>
   </div>
 </div>
-<div [hidden]="!(this.unseenService.currentVideos.length > 0)" class="container well bs-component">
-  <p class=".lead">
-    <b>Youtube returned {{this.unseenService.pageInfo.totalResults}} videos for "{{this.lastSearchQuery}}"</b>. The videos below are
-    based in your custom search. Change the form and search again to generate new pages based in your new search.
-  </p>
-  <p class=".lead">
-    <b>Unseen Tube found {{this.unseenService.currentVideos.length}} videos for this page</b>.
-  </p>
-  <fieldset [disabled]="this.isSearching">
-    <div class="form-group col-xs-12">
-      <!-- next/prev button -->
-      <div class="input-group">
+<div class="container well bs-component">
+  <div [hidden]="!(this.unseenService.currentVideos.length > 0)" class="col-sm-12">
+    <p class=".lead">
+      <b>Youtube returned {{this.unseenService.pageInfo.totalResults}} videos for "{{this.lastSearchQuery}}"</b>. The
+      videos below are
+      based in your custom search. Change the form and search again to generate new pages based in your new search.
+    </p>
+    <p class=".lead">
+      <b>Unseen Tube found {{this.unseenService.currentVideos.length}} videos for this page</b>.
+    </p>
+    <fieldset [disabled]="this.isSearching">
+      <div class="form-group col-xs-12">
+        <!-- next/prev button -->
+        <div class="input-group">
         <span class="input-group-btn">
                  <button id="prev-page-button" class="btn btn-raised btn-primary pull-left" type="button"
                          [disabled]="isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
@@ -84,11 +88,19 @@
                         (click)="nextPage()"><i
                   class="material-icons">navigate_next</i></button>
           </span>
+        </div>
       </div>
-    </div>
 
-  </fieldset>
-  <app-unseen-tube-video-collection
-    [videoCollection]="this.unseenService.videosWithFilter(this.unseenTubeQuery)"></app-unseen-tube-video-collection>
+    </fieldset>
+    <app-unseen-tube-video-collection
+      [videoCollection]="this.unseenService.videosWithFilter(this.unseenTubeQuery)"></app-unseen-tube-video-collection>
+  </div>
+  <div [hidden]="this.unseenService.currentVideos.length !== 0" class="col-sm-12">
+    <div class="col-sm-6 col-sm-offset-3">
+      <h2 class="text-center">
+        No Videos Found :(
+      </h2>
+    </div>
+  </div>
 </div>
 
