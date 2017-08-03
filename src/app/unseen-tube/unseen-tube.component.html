@@ -58,15 +58,56 @@
     </div>
   </div>
   <!-- TODO: add a progress animation -->
-  <div [hidden]="!isSearching" class="progress progress-striped active">
+  <!-- <div [hidden]="!isSearching" class="progress progress-striped active">
     <div id="progress-bar" class="progress-bar" style="width: 2%"></div>
-  </div>
+  </div> -->
 </div>
 <div class="container well bs-component">
-  <fieldset [disabled]="this.isSearching">
-    <div class="form-group col-xs-12">
-      <!-- next/prev button -->
-      <div class="input-group">
+  <div [hidden]="!(this.unseenService.currentVideos.length > 0) || this.isSearching" class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">Success!</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          <b>Unseen Tube found {{this.unseenService.currentVideos.length}} videos for this page.</b>
+        </p>
+        <p>
+          <b>Youtube returned {{this.unseenService.pageInfo.totalResults}} videos for "{{this.lastSearchQuery}}".</b>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div [hidden]="this.unseenService.currentVideos.length !== 0 || this.isSearching" class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title">No videos found on this page!</h3>
+      </div>
+      <div class="panel-body">
+        Unseen Tube didn't found any videos on this page! But don't give up! <b>Try changing the sliders above or
+        going to the next/previous page!</b>.
+      </div>
+    </div>
+  </div>
+
+  <div [hidden]="!this.isSearching" class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Searching...</h3>
+      </div>
+      <div class="panel-body">
+        <b>Unseen Tube is gathering data...</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12">
+
+    <fieldset [disabled]="this.isSearching">
+      <div class="form-group col-xs-12">
+        <!-- next/prev button -->
+        <div class="input-group">
         <span class="input-group-btn">
                 <button id="prev-page-button" class="btn btn-raised btn-primary pull-left" type="button"
                         [disabled]="isSearching || maxViewsInput.errors || this.unseenTubeQuery.maxViews < 0
@@ -79,42 +120,14 @@
                         (click)="nextPage()">
                    Next Page</button>
           </span>
-      </div>
-    </div>
-  </fieldset>
-  <div [hidden]="!(this.unseenService.currentVideos.length > 0)" class="col-sm-12">
-    <div class="col-sm-6 col-sm-offset-3">
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          <h3 class="panel-title">Success!</h3>
-        </div>
-        <div class="panel-body">
-          <p class=".lead">
-      <b>Youtube returned {{this.unseenService.pageInfo.totalResults}} videos for "{{this.lastSearchQuery}}".</b>
-    </p>
-    <p class=".lead">
-      <b>Unseen Tube found {{this.unseenService.currentVideos.length}} videos for this page.</b>
-    </p>
         </div>
       </div>
-    </div>
+    </fieldset>
   </div>
 
-  <app-unseen-tube-video-collection
-    [videoCollection]="this.unseenService.videosWithFilter(this.unseenTubeQuery)"></app-unseen-tube-video-collection>
-
-  <div [hidden]="this.unseenService.currentVideos.length !== 0" class="col-sm-12">
-    <div class="col-sm-6 col-sm-offset-3">
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          <h3 class="panel-title">No videos found on this page!</h3>
-        </div>
-        <div class="panel-body">
-          Unseen Tube didn't found any videos on this page! But don't give up! <b>Try changing the sliders above or
-          going to the next/previous page!</b>.
-        </div>
-      </div>
-    </div>
+  <div class="col-xs-12">
+    <app-unseen-tube-video-collection
+      [videoCollection]="this.unseenService.videosWithFilter(this.unseenTubeQuery)"></app-unseen-tube-video-collection>
   </div>
 </div>
 
