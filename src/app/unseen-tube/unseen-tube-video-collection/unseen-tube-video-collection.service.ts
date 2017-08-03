@@ -35,34 +35,6 @@ export class UnseenTubeVideoCollectionService {
     this._videos = [];
   }
 
-
-  /**
-   * Creates a new video and add it to
-   * the videos array
-   * @param videoId
-   * @param views
-   * @param postDate
-   */
-  addVideo(videoId: string, views: number, postDate: Date) {
-    this.addVideoObj(new UnseenTubeVideo(videoId, views, postDate));
-  }
-
-  /**
-   * Adds an video object to the videos
-   * array
-   * @param newVideo
-   */
-  addVideoObj(newVideo: UnseenTubeVideo) {
-    this.videos.push(newVideo);
-  }
-
-  /**
-   * Clears all the current videos
-   */
-  clearVideos() {
-    this._videos = [];
-  }
-
   /**
    * Parses the videos from a videos
    * YouTube statistics JSON and add it to
@@ -70,13 +42,13 @@ export class UnseenTubeVideoCollectionService {
    * @param items
    */
   parseVideosFromJSON(items) {
-    /* Clear the videos since it is a new video data array */
-    this.clearVideos();
-
     /* Iterates through all the videos inside items json and adds it */
+    const newVideos = [];
     for (const video of items) {
-      this.addVideo(video.id, Number(video.statistics.viewCount), null);
+      newVideos.push(new UnseenTubeVideo(video.id, Number(video.statistics.viewCount), null));
     }
+
+    this._videos = newVideos;
   }
 
   /**
