@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {UnseenTubeService} from './unseen-tube.service';
 import {SearchType, UnseenTubeQuery} from './unseen-tube-search.model';
@@ -74,14 +74,7 @@ export class UnseenTubeComponent implements OnInit {
   public finishSearch() {
     this.isSearching = false;
 
-    /* Automatically go to next or previous page when necessary */
-    if (this.unseenService.currentVideos.length === 0) {
-      if (!isUndefined(this.unseenService.pageInfo.nextPageToken)) {
-        this.nextPage();
-      } else {
-        /* TODO: Tell the user that no more results was found in the next page */
-      }
-    }
+    /* TODO: Maybe implement an auto search */
   }
 }
 
