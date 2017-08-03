@@ -9,6 +9,7 @@
     <img *ngIf="!this.playRequested"
          [src]="this.video.thumbUrl"
          (click)="this.play()"
+         [title]="this.video.title"
          class="yt-thumb">
 
     <span class="glyphicon glyphicon-play-circle"
