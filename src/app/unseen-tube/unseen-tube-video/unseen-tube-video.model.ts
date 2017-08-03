@@ -23,12 +23,5 @@ export class UnseenTubeVideo {
     this._views = views;
     this._postDate = postDate;
   }
-
-  /**
-   * Increments the views by 1
-   */
-  public viewIt() {
-    this._views += 1;
-  }
 }
 

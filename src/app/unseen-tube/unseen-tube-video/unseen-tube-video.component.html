@@ -17,6 +17,6 @@
   <i [class]="'glyphicon yt-views eye ' + (video.views <= 1 ? 'glyphicon-eye-close':'glyphicon-eye-open')"
      [style.color]="this.getViewsRedColor() | safeStyle">
   </i>
-  <span class="lead">{{this.video.views}}</span>
+  <span class="lead">{{this.video.views + (this.playRequested ? 1:0)}}</span>
   <i *ngIf="video.views <= 10" title="HOT" class="glyphicon glyphicon-fire yt-views" [style.color]="'red'"></i>
 </div>
