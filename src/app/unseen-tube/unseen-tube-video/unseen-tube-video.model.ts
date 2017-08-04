@@ -2,6 +2,7 @@ export class UnseenTubeVideo {
   get thumbUrl(): string {
     return this._thumbUrl;
   }
+
   get channelTitle(): string {
     return this._channelTitle;
   }

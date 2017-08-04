@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {UnseenTubeService} from './unseen-tube.service';
-import {SearchType, UnseenTubeQuery} from './unseen-tube-search.model';
+import {SearchType, SortingType, UnseenTubeQuery} from './unseen-tube-search.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {isUndefined} from 'util';
 
@@ -16,6 +16,7 @@ export class UnseenTubeComponent implements OnInit {
   unseenTubeQuery: UnseenTubeQuery;
   lastSearchQuery: string;
   isSearching: boolean;
+  sortingType = SortingType;
 
   constructor(public unseenService: UnseenTubeService) {
     /* Variables setup */
@@ -25,6 +26,7 @@ export class UnseenTubeComponent implements OnInit {
     this.isSearching = false;
     this.unseenTubeQuery.maxViews = 500;
     this.unseenTubeQuery.publishedBefore = new Date().getFullYear() + 1;
+    this.unseenTubeQuery.sortMode = this.sortingType.ASCENDING;
 
     /* Makes a first search */
     this.performSearch();

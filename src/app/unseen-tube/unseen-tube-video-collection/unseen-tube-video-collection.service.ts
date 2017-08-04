@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {UnseenTubeVideo} from '../unseen-tube-video/unseen-tube-video.model';
-import {UnseenTubeQuery} from '../unseen-tube-search.model';
+import {SortingType, UnseenTubeQuery} from '../unseen-tube-search.model';
 
 @Injectable()
 export class UnseenTubeVideoCollectionService {
@@ -45,8 +45,8 @@ export class UnseenTubeVideoCollectionService {
     /* Iterates through all the videos inside items json and adds it */
     const newVideos = [];
     for (const video of items) {
-       newVideos.push(new UnseenTubeVideo(video.snippet.title, video.snippet.channelTitle, video.id,
-         Number(video.statistics.viewCount), new Date(video.snippet.publishedAt), video.snippet.thumbnails.high.url));
+      newVideos.push(new UnseenTubeVideo(video.snippet.title, video.snippet.channelTitle, video.id,
+        Number(video.statistics.viewCount), new Date(video.snippet.publishedAt), video.snippet.thumbnails.high.url));
     }
 
     this._videos = newVideos;
@@ -64,12 +64,29 @@ export class UnseenTubeVideoCollectionService {
   }
 
   /**
-   * Returns a video array filtered by an UnseenTubeQuery
-   * @param currentQuery
+   * Callback sort fuction for getVideosWithFilter
+   */
+  private sortVideoByQuery(query: UnseenTubeQuery) {
+    return function (xVideo: UnseenTubeVideo, yVideo: UnseenTubeVideo) {
+      if (query.sortMode === SortingType.ASCENDING) {
+        return xVideo.views - yVideo.views;
+      } else {
+        return yVideo.views - xVideo.views;
+      }
+    }
+  }
+
+  /**
+   * Returns a video array filtered and sorted by an UnseenTubeQuery
+   * @param query
    * @returns {UnseenTubeVideo[]}
    */
-  getVideosWithFilter(currentQuery: UnseenTubeQuery) {
-    return this._videos.filter(this.filterVideoByQuery(currentQuery));
+  getVideosWithFilter(query: UnseenTubeQuery) {
+    /* Filter the videos */
+    const filteredVideos = this._videos.filter(this.filterVideoByQuery(query));
+
+    /* Sort them */
+    return filteredVideos.sort(this.sortVideoByQuery(query));
   }
 
 }

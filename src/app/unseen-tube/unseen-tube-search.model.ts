@@ -7,6 +7,8 @@ export class UnseenTubeQuery {
   publishedBefore: number;
   /* Search mode */
   searchType: SearchType;
+  /* Sort mode */
+  sortMode: SortingType;
 
   constructor(searchQuery?: string, maxViews?: number, publishedBefore?: number, searchType?: SearchType) {
     this.searchQuery = searchQuery;
@@ -49,4 +51,12 @@ export enum SearchType {
   NEW_SEARCH,
   PREVIOUS_PAGE,
   JUMP_TO_PAGE
+}
+
+/**
+ * Sorting Type
+ */
+export enum SortingType {
+  ASCENDING,
+  DESCENDING
 }

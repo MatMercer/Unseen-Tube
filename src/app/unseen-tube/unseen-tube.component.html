@@ -43,6 +43,28 @@
       </div>
       <nouislider class="slider shor slider-primary noUi-connect" [connect]="true" [min]="2006" [max]="2018" [step]="1"
                   [(ngModel)]="this.unseenTubeQuery.publishedBefore"></nouislider>
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Sorting Order</label>
+        <div class="col-sm-9">
+          <div class="radio radio-primary">
+            <label>
+              <input type="radio" [value]="this.sortingType.ASCENDING"
+                     [checked]="this.unseenTubeQuery.sortMode == this.sortingType.ASCENDING"
+                     [(ngModel)]="this.unseenTubeQuery.sortMode">
+              Ascending
+            </label>
+          </div>
+          <div class="radio radio-primary">
+            <label>
+              <input type="radio" [value]="this.sortingType.DESCENDING"
+                     [checked]="this.unseenTubeQuery.sortMode == this.sortingType.DESCENDING"
+                     [(ngModel)]="this.unseenTubeQuery.sortMode">
+              Descending
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
   </fieldset>
 
