@@ -1,18 +1,19 @@
 import {Injectable} from '@angular/core';
 import {Http, URLSearchParams} from '@angular/http';
-import {PageInfo, SearchType, UnseenTubeQuery} from './unseen-tube-query.model';
+import {PageInfo, SearchType, UnseenTubeQuery} from './unseen-tube-search.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
 import {UnseenTubeVideo} from './unseen-tube-video/unseen-tube-video.model';
+import {isUndefined} from 'util';
 
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/map';
-import {isUndefined} from "util";
 
 @Injectable()
 export class UnseenTubeService {
   get pageInfo(): PageInfo {
     return this._pageInfo;
   }
+
   /**
    * API setup
    */
@@ -65,9 +66,10 @@ export class UnseenTubeService {
     if (newQuery.searchType === SearchType.NEW_SEARCH) {
       /*
        Updates the current query for later use
-       if the user wants to use the next page
+       if the user wants to use the next page.
+       It updates the current query WITHOUT DATA BINDING
        */
-      this.currentQuery = newQuery;
+      this.currentQuery = Object.assign({}, newQuery);
     }
 
     /*
@@ -83,17 +85,16 @@ export class UnseenTubeService {
 
     /* If next/prev/jump page search, setup it */
     if (newQuery.searchType === SearchType.NEXT_PAGE) {
-      console.log(this._pageInfo);
       params.set('pageToken', this._pageInfo.nextPageToken);
     } else if
     (newQuery.searchType === SearchType.PREVIOUS_PAGE) {
-      console.log(this._pageInfo);
       params.set('pageToken', this._pageInfo.prevPageToken);
-    } else if
-    (newQuery.searchType === SearchType.JUMP_TO_PAGE) {
-      console.log(this._pageInfo);
-      params.set('pageToken', newQuery.pageToken);
     }
+    /* else if
+       (newQuery.searchType === SearchType.JUMP_TO_PAGE) {
+         console.log(this._pageInfo);
+         params.set('pageToken', newQuery.pageToken);
+       } */
 
     /* Makes the API request with the parameters */
     return this.http
@@ -111,16 +112,15 @@ export class UnseenTubeService {
    * @param response
    */
   private onSearchSuccess(response) {
-    console.log(response);
     this._pageInfo.updatePageInfo(response);
 
     /*
      Creates the API parameters
      */
     const params: URLSearchParams = new URLSearchParams();
-    params.set('part', 'statistics');
+    params.set('part', 'snippet,statistics');
     /* Here the videos ID's are passed to the other Youtube API */
-    params.set('id', this.unseenTubeVideoCollection.getVideosIdsFromJson(response.items).join());
+    params.set('id', UnseenTubeVideoCollectionService.getVideosIdsFromJson(response.items).join());
     params.set('key', this.API_KEY);
 
     /* Makes the API request with the parameters */
@@ -141,11 +141,18 @@ export class UnseenTubeService {
    * @param videosStatis
    */
   private onVideosStatsSuccess(videosStatis) {
-
     /* Sends to the data to the videos service */
     this.unseenTubeVideoCollection.parseVideosFromJSON(videosStatis.items);
 
-    this._currentVideos = this.unseenTubeVideoCollection.getVideosWithFilter(this.currentQuery);
+    return this.videosWithFilter(this.currentQuery);
+  }
+
+  /**
+   * This function returns filtered videos based in an
+   * UnseenTubeQuery and assigns the internal _currentVideos variable
+   */
+  public videosWithFilter(unseenTubeQuery: UnseenTubeQuery) {
+    this._currentVideos = this.unseenTubeVideoCollection.getVideosWithFilter(unseenTubeQuery);
 
     return this._currentVideos;
   }
@@ -156,7 +163,23 @@ export class UnseenTubeService {
    */
   // TODO: Better error message
   private onApiError(error: JSON) {
-    console.log(error)
+    console.log(this.currentQuery + '\n ERROR: ' + error);
+  }
+
+  /**
+   * Returns true if the service is in the last page
+   * @returns {boolean}
+   */
+  isInLastPage() {
+    return isUndefined(this.pageInfo.nextPageToken);
+  }
+
+  /**
+   * Returns true if the service is in the first page
+   * @returns {boolean}
+   */
+  isInFirstPage() {
+    return isUndefined(this.pageInfo.prevPageToken);
   }
 
 }

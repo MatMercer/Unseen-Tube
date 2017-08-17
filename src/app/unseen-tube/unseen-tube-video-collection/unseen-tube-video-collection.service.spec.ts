@@ -1,4 +1,4 @@
-import {TestBed, inject} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection.service';
 

@@ -6,8 +6,8 @@ import {AppComponent, PrettyNumberPipe, SafeStylePipe, SafeUrlPipe} from './app.
 import {NouisliderModule} from 'ng2-nouislider';
 import {HttpModule} from '@angular/http';
 import {UnseenTubeComponent} from './unseen-tube/unseen-tube.component';
-import { UnseenTubeVideoCollectionComponent } from './unseen-tube/unseen-tube-video-collection/unseen-tube-video-collection.component';
-import { UnseenTubeVideoComponent } from './unseen-tube/unseen-tube-video/unseen-tube-video.component';
+import {UnseenTubeVideoCollectionComponent} from './unseen-tube/unseen-tube-video-collection/unseen-tube-video-collection.component';
+import {UnseenTubeVideoComponent} from './unseen-tube/unseen-tube-video/unseen-tube-video.component';
 
 @NgModule({
   declarations: [

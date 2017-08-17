@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UnseenTubeVideoComponent } from './unseen-tube-video.component';
+import {UnseenTubeVideoComponent} from './unseen-tube-video.component';
 
 describe('UnseenTubeVideoComponent', () => {
   let component: UnseenTubeVideoComponent;
@@ -8,9 +8,9 @@ describe('UnseenTubeVideoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UnseenTubeVideoComponent ]
+      declarations: [UnseenTubeVideoComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

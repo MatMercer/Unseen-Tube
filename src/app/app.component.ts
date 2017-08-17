@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform, Component} from '@angular/core';
+import {Component, Pipe, PipeTransform} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
@@ -7,7 +7,6 @@ import {DomSanitizer} from '@angular/platform-browser';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
 }
 
 

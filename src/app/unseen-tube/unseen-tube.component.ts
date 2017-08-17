@@ -1,11 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {UnseenTubeService} from './unseen-tube.service';
-import {SearchType, UnseenTubeQuery} from './unseen-tube-query.model';
+import {SearchType, SortingType, UnseenTubeQuery} from './unseen-tube-search.model';
 import {UnseenTubeVideoCollectionService} from './unseen-tube-video-collection/unseen-tube-video-collection.service';
-import {UnseenTubeVideo} from "./unseen-tube-video/unseen-tube-video.model";
-import {isUndefined} from "util";
-import {isDefined} from "@angular/compiler/src/util";
+import {isUndefined} from 'util';
 
 
 @Component({
@@ -15,55 +13,70 @@ import {isDefined} from "@angular/compiler/src/util";
   providers: [UnseenTubeService, UnseenTubeVideoCollectionService]
 })
 export class UnseenTubeComponent implements OnInit {
-  searchQuery: string;
+  unseenTubeQuery: UnseenTubeQuery;
+  lastSearchQuery: string;
   isSearching: boolean;
-  maxViews: number;
-  publishedBefore: number;
-  @ViewChild('searchButton') searchButton: ElementRef;
+  sortingType = SortingType;
 
   constructor(public unseenService: UnseenTubeService) {
     /* Variables setup */
-    this.searchQuery = 'webdriver torso';
+    this.unseenTubeQuery = new UnseenTubeQuery();
+    this.unseenTubeQuery.searchQuery = 'webdriver torso';
+    this.lastSearchQuery = this.unseenTubeQuery.searchQuery;
     this.isSearching = false;
-    this.maxViews = 500;
-    this.publishedBefore = new Date().getFullYear();
+    this.unseenTubeQuery.maxViews = 500;
+    this.unseenTubeQuery.publishedBefore = new Date().getFullYear() + 1;
+    this.unseenTubeQuery.sortMode = this.sortingType.ASCENDING;
+
+    /* Makes a first search */
+    this.performSearch();
   }
 
   ngOnInit() {
   }
 
-  public performSearch(searchType?: SearchType, pageToken?: string) {
+  /**
+   * Performs a search with the desired search type
+   * If no type is supplied, SearchType.NEW_SEARCH is used
+   * @param {SearchType} searchType
+   */
+  public performSearch(searchType?: SearchType) {
     this.isSearching = true;
 
     if (isUndefined(searchType)) {
-      searchType = SearchType.NEW_SEARCH;
+      this.unseenTubeQuery.searchType = SearchType.NEW_SEARCH;
+    } else {
+      this.unseenTubeQuery.searchType = searchType;
     }
 
-    this.unseenService.performSearch(new UnseenTubeQuery(this.searchQuery, this.maxViews, this.publishedBefore, searchType, pageToken))
+    this.unseenService.performSearch(this.unseenTubeQuery)
       .subscribe(() => this.finishSearch());
 
+    /* Updates the lastSearchQuery */
+    this.lastSearchQuery = this.unseenTubeQuery.searchQuery;
   }
 
+  /**
+   * Performs a next page search
+   */
   public nextPage() {
     this.performSearch(SearchType.NEXT_PAGE);
   }
 
+  /**
+   * Performs a previous page search
+   */
   public previousPage() {
     this.performSearch(SearchType.PREVIOUS_PAGE);
   }
 
+  /**
+   * Method called when a search is finished
+   */
   public finishSearch() {
     this.isSearching = false;
 
-    /* Automatically go to next or previous page when necessary */
-    if (this.unseenService.currentVideos.length === 0) {
-      if (!isUndefined(this.unseenService.pageInfo.nextPageToken)) {
-        this.nextPage();
-      } else {
-        /* TODO: Tell the user that no more results was found in the next page */
-      }
-      /* TODO: Tell the user that no results was found */
-    }
+    /* TODO: Maybe implement an auto search */
   }
 }
 

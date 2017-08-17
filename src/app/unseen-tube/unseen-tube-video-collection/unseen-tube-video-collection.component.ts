@@ -10,7 +10,8 @@ export class UnseenTubeVideoCollectionComponent implements OnInit {
   @Input()
   videoCollection: UnseenTubeVideo[];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

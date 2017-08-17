@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {UnseenTubeVideo} from '../unseen-tube-video/unseen-tube-video.model';
-import {UnseenTubeQuery} from '../unseen-tube-query.model';
+import {SortingType, UnseenTubeQuery} from '../unseen-tube-search.model';
 
 @Injectable()
 export class UnseenTubeVideoCollectionService {
@@ -13,9 +13,6 @@ export class UnseenTubeVideoCollectionService {
    */
   private _videos: UnseenTubeVideo[];
 
-  constructor() {
-  }
-
   /**
    * Get an string ID array of videos
    * from a JSON Youtube search API items
@@ -23,7 +20,7 @@ export class UnseenTubeVideoCollectionService {
    * @param items
    * @returns {string[]}
    */
-  getVideosIdsFromJson(items) {
+  static getVideosIdsFromJson(items) {
     const ids: string[] = [];
 
     /* Iterates through all the videos inside items json and get the id's */
@@ -34,30 +31,7 @@ export class UnseenTubeVideoCollectionService {
     return ids;
   }
 
-  /**
-   * Creates a new video and add it to
-   * the videos array
-   * @param videoId
-   * @param views
-   * @param postDate
-   */
-  addVideo(videoId: string, views: number, postDate: Date) {
-    this.addVideoObj(new UnseenTubeVideo(videoId, views, postDate));
-  }
-
-  /**
-   * Adds an video object to the videos
-   * array
-   * @param newVideo
-   */
-  addVideoObj(newVideo: UnseenTubeVideo) {
-    this.videos.push(newVideo);
-  }
-
-  /**
-   * Clears all the current videos
-   */
-  clearVideos() {
+  constructor() {
     this._videos = [];
   }
 
@@ -68,13 +42,14 @@ export class UnseenTubeVideoCollectionService {
    * @param items
    */
   parseVideosFromJSON(items) {
-    /* Clear the videos since it is a new video data array */
-    this.clearVideos();
-
     /* Iterates through all the videos inside items json and adds it */
+    const newVideos = [];
     for (const video of items) {
-      this.addVideo(video.id, Number(video.statistics.viewCount), null);
+      newVideos.push(new UnseenTubeVideo(video.snippet.title, video.snippet.channelTitle, video.id,
+        Number(video.statistics.viewCount), new Date(video.snippet.publishedAt), video.snippet.thumbnails.high.url));
     }
+
+    this._videos = newVideos;
   }
 
   /**
@@ -83,18 +58,35 @@ export class UnseenTubeVideoCollectionService {
    * @returns {(video:any)=>boolean}
    */
   private filterVideoByQuery(query: UnseenTubeQuery) {
-    return function(video) {
-      return video.views < query.maxViews;
+    return function (video: UnseenTubeVideo) {
+      return video.views < query.maxViews && video.postDate.getFullYear() < query.publishedBefore;
     }
   }
 
   /**
-   * Returns a video array filtered by an UnseenTubeQuery
-   * @param currentQuery
+   * Callback sort fuction for getVideosWithFilter
+   */
+  private sortVideoByQuery(query: UnseenTubeQuery) {
+    return function (xVideo: UnseenTubeVideo, yVideo: UnseenTubeVideo) {
+      if (query.sortMode === SortingType.ASCENDING) {
+        return xVideo.views - yVideo.views;
+      } else {
+        return yVideo.views - xVideo.views;
+      }
+    }
+  }
+
+  /**
+   * Returns a video array filtered and sorted by an UnseenTubeQuery
+   * @param query
    * @returns {UnseenTubeVideo[]}
    */
-  getVideosWithFilter(currentQuery: UnseenTubeQuery) {
-    return this._videos.filter(this.filterVideoByQuery(currentQuery));
+  getVideosWithFilter(query: UnseenTubeQuery) {
+    /* Filter the videos */
+    const filteredVideos = this._videos.filter(this.filterVideoByQuery(query));
+
+    /* Sort them */
+    return filteredVideos.sort(this.sortVideoByQuery(query));
   }
 
 }

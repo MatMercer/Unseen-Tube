@@ -52,3 +52,7 @@ img.yt-thumb {
 img.yt-thumb:hover {
   -webkit-filter: brightness(75%);
 }
+
+div.video-date {
+  padding-right: 11px;
+}

@@ -5,4 +5,5 @@
 function initMaterialDesign() {
   $.material.init();
 }
+
 $(document).ready(initMaterialDesign);

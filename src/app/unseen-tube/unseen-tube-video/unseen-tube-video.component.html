@@ -7,9 +7,11 @@
             frameborder="0" allowfullscreen>
     </iframe>
     <img *ngIf="!this.playRequested"
-         [src]="this.getThumbUrl()"
+         [src]="this.video.thumbUrl"
          (click)="this.play()"
+         [title]="this.video.title"
          class="yt-thumb">
+
     <span class="glyphicon glyphicon-play-circle"
           *ngIf="!this.playRequested"
           (click)="this.play()"></span>
@@ -17,6 +19,10 @@
   <i [class]="'glyphicon yt-views eye ' + (video.views <= 1 ? 'glyphicon-eye-close':'glyphicon-eye-open')"
      [style.color]="this.getViewsRedColor() | safeStyle">
   </i>
-  <span class="lead" >{{this.video.views}}</span>
+  <span class="lead">{{this.video.views + (this.playRequested ? 1:0)}}</span>
   <i *ngIf="video.views <= 10" title="HOT" class="glyphicon glyphicon-fire yt-views" [style.color]="'red'"></i>
+  <div class="pull-right video-date">
+    <i class="glyphicon glyphicon-calendar"></i>
+    <span class="lead">{{this.video.postDate.getFullYear()}}</span>
+  </div>
 </div>
