@@ -1,4 +1,10 @@
-# UnseenTube
+![Unseen Tube](https://i.imgur.com/4noFWzf.jpg)](https://matmercer.github.io/Unseen-Tube/)
+
+## Motivation
+
+[Every second, there is at least 3 hours of videos uploaded to youtube](http://www.everysecond.io/youtube). This means that there will be such videos that *no one has ever watched or videos from 2006 with very low views*. Does this means necessarily that the video doesn't contain good content? No. So here are some "unseen tube" videos that I've found using the tool I've made:
+
+[Unseen Tube Playlist](https://www.youtube.com/watch?v=TpIP3aHipOw&index=4&list=PLS2A8k38h9GCoRmw_lT8OJtSaq3gEnekB)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.0.
 
